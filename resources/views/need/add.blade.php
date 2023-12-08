@@ -8,7 +8,7 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item">Tables</li>
+            <li class="breadcrumb-item">Tables</li> 
             <li class="breadcrumb-item">Data</li>
             <li class="breadcrumb-item active">Add {{ $data['title'] }}</li>
           </ol>
@@ -27,7 +27,7 @@
                             <div class="row mb-3">
                             <label for="txtNeedName" class="col-sm-2 col-form-label">Item Need</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="txtNeedName" name="txtNeedName" value="{{ Session::get('txtNeedName') }}">
+                                <input type="text" class="form-control" id="txtNeedName" name="txtNeedName" value="{{ Session::get('txtNeedName') }}">git
                             </div>
                             </div>
                     
