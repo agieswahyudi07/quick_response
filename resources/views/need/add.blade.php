@@ -11,7 +11,7 @@
             <li class="breadcrumb-item">Tables</li> 
             <li class="breadcrumb-item">Data</li>
             <li class="breadcrumb-item active">Add {{ $data['title'] }}</li>
-          </ol>
+          </ol>     
         </nav>
       </div><!-- End Page Title -->
 
