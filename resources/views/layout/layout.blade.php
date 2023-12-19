@@ -313,7 +313,7 @@
 
       <li class="nav-item">
         <a class="nav-link " href="{{ route('completed') }}">
-          <i class="bi bi-check-circle-fill"></i>
+          <i class="bi bi-check-circle"></i>
           <span>Completed</span>
         </a>
       </li><!-- End Completed Nav -->
