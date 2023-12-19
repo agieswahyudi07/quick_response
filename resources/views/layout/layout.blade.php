@@ -295,7 +295,7 @@
 
       <li class="nav-item">
         <a class="nav-link " href="{{ route('queue') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-card-list"></i>
           <span>Queue</span>
         </a>
       </li><!-- End Queue Nav -->
@@ -304,7 +304,7 @@
 
       <li class="nav-item">
         <a class="nav-link " href="{{ route('progress') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-arrow-clockwise"></i>
           <span>On Progress</span>
         </a>
       </li><!-- End On Progress Nav -->
@@ -313,7 +313,7 @@
 
       <li class="nav-item">
         <a class="nav-link " href="{{ route('completed') }}">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Completed</span>
         </a>
       </li><!-- End Completed Nav -->
