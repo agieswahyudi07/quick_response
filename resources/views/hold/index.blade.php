@@ -22,7 +22,14 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $data['title'] }}</h5>
                     @include('message/errors')
-                    <a href="{{ route('queue.create') }}"></a>
+                    <div class="row">
+                        <div class="col-lg-12 mb-2">
+                            <a href="{{ route('hold.export') }}">
+                                <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
+                            </a>
+                        </div>
+                        
+                    </div>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ComplaintModel;
+use Carbon\Carbon;
 use App\Models\HoldModel;
+use App\Exports\HoldExport;
 use Illuminate\Http\Request;
+use App\Models\ComplaintModel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HoldController extends Controller
 {
@@ -25,51 +28,20 @@ class HoldController extends Controller
         return view('hold/index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function hold_export()
     {
-        //
-    }
+        $columns = [
+            'ms_complaint.*',
+            'ms_priority.priority_name',
+            'ms_status.status_name',
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $data = ComplaintModel::select($columns)
+            ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
+            ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
+            ->where('ms_status.status_id', '=', 4)
+            ->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(HoldModel $holdModel)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(HoldModel $holdModel)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, HoldModel $holdModel)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(HoldModel $holdModel)
-    {
-        //
+        return Excel::download(new HoldExport($data), 'Queue |' . Carbon::now()->timestamp . '.xlsx');
     }
 }

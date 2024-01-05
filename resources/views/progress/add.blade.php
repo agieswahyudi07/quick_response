@@ -8,10 +8,10 @@
         <nav>
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-            <li class="breadcrumb-item">Tables</li>
+            <li class="breadcrumb-item">Tables</li> 
             <li class="breadcrumb-item">Data</li>
             <li class="breadcrumb-item active">Add {{ $data['title'] }}</li>
-          </ol>
+          </ol>     
         </nav>
       </div><!-- End Page Title -->
 
@@ -22,63 +22,85 @@
                     <div class="card-body mt-3">
                         <h5 class="card-title">Add {{ $data['title'] }}</h5>
                         @include('message/errors')
-                        <form class="row g-3" method="POST" action="{{ route('queue.store') }}">
+                        <form class="row g-3" method="POST" action="{{ route('progress.hold.store') }}">
                             @csrf
-                            <div class="row mb-3">
-                            <label for="txtComplaintName" class="col-sm-2 col-form-label">Complaint</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="txtComplaintName" name="txtComplaintName" value="{{ Session::get('txtComplaintName') }}">
-                            </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                            <label for="txtComplaintReporter" class="col-sm-2 col-form-label">Reporter</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="txtComplaintReporter" name="txtComplaintReporter" value="{{ Session::get('txtComplaintReporter') }}">
-                            </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                            <label for="txtComplaintLocation" class="col-sm-2 col-form-label">Location</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="txtComplaintLocation" name="txtComplaintLocation" value="{{ Session::get('txtComplaintLocation') }}">
-                            </div>
-                            </div>
-                    
-                            <div class="row mb-3">
-                                <label for="txtComplaintTime" class="col-sm-2 col-form-label">Time</label>
-                                <div class="col-sm-10">
-                                <input type="time" class="form-control" id="txtComplaintTime" name="txtComplaintTime" value="{{ Session::get('txtComplaintTime') }}">
-                                </div>
-                            </div>
-                        
-                            <div class="row mb-3">
-                            <label for="txtComplaintDate" class="col-sm-2 col-form-label">Date</label>
-                            <div class="col-sm-10">
-                                <input type="date" class="form-control" id="txtComplaintDate" name="txtComplaintDate" value="{{ Session::get('txtComplaintDate') }}">
-                            </div>
-                            </div>
 
+
+                            {{-- coba complaint id --}}
                             <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label">Priority</label>
+                                <label class="col-sm-2 col-form-label">Complaint</label>
                                 <div class="col-sm-10">
-                                    <select class="form-select" aria-label="Default select example" id="selPriority" name="selPriority">
-                                        @if (session()->has('txtPriority'))
-                                            <option value="{{ Session::get('selPriority') }}">{{ Session::get('txtPriority') }}</option>
+                                    <select class="form-select" aria-label="Default select example" id="selComplaint" name="selComplaint">
+                                        @if (session()->has('txtComplaint'))
+                                            <option value="{{ Session::get('selComplaint') }}">
+                                                {{ Session::get('txtComplaint') }}</option>
                                         @else
-                                            <option value="" selected disabled>Select Priority</option>
+                                            <option value="" selected disabled>Select Complaint</option>
                                         @endif
-                                        @foreach($data['priority'] as $priority)
-                                            <option value="{{ $priority->priority_id }}">{{ $priority->priority_code .'-'. $priority->priority_name }}</option>
+                                        @foreach ($data['complaints'] as $complaint)
+                                            @php
+                                                $selected = '';
+                                                // Cek apakah 'id' dari controller ada
+                                                if (isset($data['complaint_id']) && $data['complaint_id'] == $complaint->complaint_id) {
+                                                    $selected = 'selected';
+                                                }
+                                            @endphp
+                                            <option value="{{ $complaint->complaint_id }}" {{ $selected }}>
+                                                {{ $complaint->priority->priority_name .' - '. $complaint->complaint_name . '|' . $complaint->complaint_reporter }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             
+                            {{-- coba complaint id --}}
+
+
+                            {{-- <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label">Complaint</label>
+                                <div class="col-sm-10">
+                                    <select class="form-select" aria-label="Default select example" id="selComplaint"
+                                        name="selComplaint">
+                                        @if (session()->has('txtComplaint'))
+                                            <option value="{{ Session::get('selComplaint') }}">
+                                                {{ Session::get('txtComplaint') }}</option>
+                                        @else
+                                            <option value="" selected disabled>Select Complaint</option>
+                                        @endif
+                                        @foreach ($data['complaints'] as $complaint)
+                                            <option value="{{ $complaint->complaint_id }}">
+                                                {{ $complaint->priority->priority_name .' - '. $complaint->complaint_name . '|' . $complaint->complaint_reporter }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div> --}}
+
                             <div class="row mb-3">
-                            <label for="txtComplaintDesc" class="col-sm-2 col-form-label">Complaint Description</label>
+                            <label for="txtNeedName" class="col-sm-2 col-form-label">Item Need</label>
                             <div class="col-sm-10">
-                                <textarea class="form-control" style="height: 100px" id="txtComplaintDesc" name="txtComplaintDesc">{{ Session::get('txtComplaintDesc') }}</textarea>
+                                <input type="text" class="form-control" id="txtNeedName" name="txtNeedName" value="{{ Session::get('txtNeedName') }}">
+                            </div>
+                            </div>
+                    
+                            <div class="row mb-3">
+                            <label for="txtNeedQty" class="col-sm-2 col-form-label">Item Quantity</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtNeedQty" name="txtNeedQty" value="{{ Session::get('txtNeedQty') }}">
+                            </div>
+                            </div>
+                    
+                            <div class="row mb-3">
+                            <label for="txtNeedPrice" class="col-sm-2 col-form-label">Item Price</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="txtNeedPrice" name="txtNeedPrice" value="{{ Session::get('txtNeedPrice') }}">
+                            </div>
+                            </div>
+
+                            <div class="row mb-3">
+                            <label for="txtNeedDetail" class="col-sm-2 col-form-label">Item Detail</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" style="height: 100px" id="txtNeedDetail" name="txtNeedDetail">{{ Session::get('txtNeedDetail') }}</textarea>
                             </div>
                             </div>
                             

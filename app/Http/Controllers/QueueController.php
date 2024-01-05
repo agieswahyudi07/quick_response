@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ComplaintModel;
-use App\Models\PriorityModel;
+use Carbon\Carbon;
+use App\Exports\QueueExport;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use App\Models\PriorityModel;
+use App\Models\ComplaintModel;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session;
 
 
 class QueueController extends Controller
@@ -16,7 +20,6 @@ class QueueController extends Controller
      */
     public function index()
     {
-
 
         // $ComplaintModel = new ComplaintModel;
         $complaint = ComplaintModel::orderBy('priority_id', 'asc')
@@ -264,5 +267,22 @@ class QueueController extends Controller
         ComplaintModel::find($id)->delete();
         Session::flash('success', 'Data successfully deleted.');
         return redirect()->route('queue');
+    }
+
+    public function queue_export()
+    {
+        $columns = [
+            'ms_complaint.*',
+            'ms_priority.priority_name',
+            'ms_status.status_name',
+        ];
+
+        $data = ComplaintModel::select($columns)
+            ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
+            ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
+            ->where('ms_status.status_id', '=', 1)
+            ->get();
+
+        return Excel::download(new QueueExport($data), 'Queue |' . Carbon::now()->timestamp . '.xlsx');
     }
 }

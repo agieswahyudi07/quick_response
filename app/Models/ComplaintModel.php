@@ -38,4 +38,14 @@ class ComplaintModel extends Model
     ];
 
     protected $primaryKey = 'complaint_id';
+
+    public function status()
+    {
+        return $this->belongsTo(StatusModel::class, 'status_id');
+    }
+
+    public function priority()
+    {
+        return $this->belongsTo(PriorityModel::class, 'priority_id');
+    }
 }

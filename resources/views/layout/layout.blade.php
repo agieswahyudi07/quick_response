@@ -313,7 +313,7 @@
 
       <li class="nav-item">
         <a class="nav-link " href="{{ route('completed') }}">
-          <i class="bi bi-check-circle"></i>
+          <i class="bi bi-check-circle-fill"></i>
           <span>Completed</span>
         </a>
       </li><!-- End Completed Nav -->
@@ -330,8 +330,8 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link " href="{{ route('need') }}">
+          <i class="bi bi-cart-dash"></i>
           <span>Need</span>
         </a>
       </li><!-- End Hold Nav -->

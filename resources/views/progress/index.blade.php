@@ -22,7 +22,9 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $data['title'] }}</h5>
                     @include('message/errors')
-                    <a href="{{ route('queue.create') }}"></a>
+                    <a href="{{ route('progress.export') }}">
+                        <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
+                    </a>
 
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
@@ -69,7 +71,7 @@
                                                 <i class="bi bi-backspace-fill"></i>
                                             </button>
                                         </a>
-                                        <a href="{{ route('need.create', $complaint->complaint_id) }}">
+                                        <a href="{{ route('progress.hold.create', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-warning show-alert-hold-box">Hold</button>
                                         </a>
                                     </td>
