@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $data['title'] }}</h5>
                     @include('message/errors')
-                    <a href="{{ route('progress.export') }}">
+                    <a href="{{ route('user.progress.export') }}">
                         <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                     </a>
 

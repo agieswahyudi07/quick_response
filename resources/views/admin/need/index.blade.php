@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -25,10 +25,10 @@
 
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <a href="{{ route('need.create') }}">
+                            <a href="{{ route('admin.need.create') }}">
                                 <button class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add</button>
                             </a>
-                            <a href="{{ route('need.export') }}">
+                            <a href="{{ route('admin.need.export') }}">
                                 <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                             </a>
                         </div>

@@ -26,7 +26,7 @@
               <div class="card info-card sales-card">
 
                 <div class="filter">
-                  <a class="icon" href="{{ route('queue.user') }}  "><i class="bi bi-eye"></i></a>
+                  <a class="icon" href="{{ route('user.queue') }}  "><i class="bi bi-eye"></i></a>
                 </div>
 
                 <div class="card-body">
@@ -52,7 +52,7 @@
               <div class="card info-card customers-card">
 
                 <div class="filter">
-                  <a class="icon" href="{{ route('progress.user') }}  "><i class="bi bi-eye"></i></a>
+                  <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a>
                 </div>
 
                 <div class="card-body">
@@ -79,7 +79,7 @@
               <div class="card info-card revenue-card">
 
                 <div class="filter">
-                  <a class="icon" href="{{ route('completed.user') }}  "><i class="bi bi-eye"></i></a>
+                  <a class="icon" href="{{ route('user.completed') }}  "><i class="bi bi-eye"></i></a>
                 </div>
 
                 <div class="card-body">

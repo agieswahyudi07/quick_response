@@ -42,12 +42,12 @@ class SesiController extends Controller
         if (Auth::attempt($login)) {
 
             if (Auth::user()->role == 'admin') {
-                return redirect()->route('dashboard.admin');
+                return redirect()->route('admin.dashboard');
             } elseif (Auth::user()->role == 'user') {
-                return redirect()->route('dashboard.user');
+                return redirect()->route('user.dashboard');
             }
         } else {
-            return redirect()->route('sesi')->withErrors("Email or Password Doesn't Match with the Database");
+            return redirect()->route('login')->withErrors("Email or Password Doesn't Match with the Database");
         }
     }
 

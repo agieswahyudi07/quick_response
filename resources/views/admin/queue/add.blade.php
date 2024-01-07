@@ -6,7 +6,7 @@
             <h1>Add {{ $data['title'] }}</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item">Tables</li>
                     <li class="breadcrumb-item">Data</li>
                     <li class="breadcrumb-item active">Add {{ $data['title'] }}</li>
@@ -22,7 +22,7 @@
                             <h5 class="card-title">Add {{ $data['title'] }}</h5>
                             @include('message/errors')
 
-                            <form class="row g-3" method="POST" action="{{ route('queue.store') }}">
+                            <form class="row g-3" method="POST" action="{{ route('admin.queue.store') }}">
                                 @csrf
 
                                 {{-- Complaint Name --}}

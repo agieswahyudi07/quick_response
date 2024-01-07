@@ -50,7 +50,7 @@ class HoldController extends Controller
         // dd($complaint);
         if (!$complaint) {
             Session::flash('error', 'Complaint not found.');
-            return redirect()->route('queue.admin');
+            return redirect()->route('admin.queue');
         }
 
 
@@ -83,7 +83,7 @@ class HoldController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data successfully Proceed.');
-            return redirect()->route('hold.admin');
+            return redirect()->route('admin.hold');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }

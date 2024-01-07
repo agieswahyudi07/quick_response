@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -25,10 +25,10 @@
                 
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <a href="{{ route('queue.create') }}">
+                            <a href="{{ route('admin.queue.create') }}">
                                 <button class="btn btn-outline-primary"><i class="bi bi-plus-circle"></i> Add</button>
                             </a>
-                            <a href="{{ route('queue.export') }}">
+                            <a href="{{ route('admin.queue.export') }}">
                                 <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                             </a>
                         </div>
@@ -70,18 +70,18 @@
                                     <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
                                     <td>
-                                        <a href="{{ route('queue.process', $complaint->complaint_id) }}"
+                                        <a href="{{ route('admin.queue.process', $complaint->complaint_id) }}"
                                             id="processButton">
                                             <button class="btn btn-outline-success show-alert-process-box">Process</button>
                                         </a>
-                                        <a href="{{ route('queue.edit', $complaint->complaint_id) }}">
+                                        <a href="{{ route('admin.queue.edit', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-primary">
                                                 <i class="bi bi-pencil"></i>
                                             </button>
                                         </a>
                                         <form style="display: inline"
                                             method="POST"
-                                            action="{{ route('queue.destroy',$complaint->complaint_id) }}">
+                                            action="{{ route('admin.queue.destroy',$complaint->complaint_id) }}">
                                             @csrf
                                             @method('delete')
                                             <button type="button"

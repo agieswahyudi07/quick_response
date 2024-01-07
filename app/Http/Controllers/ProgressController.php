@@ -86,7 +86,7 @@ class ProgressController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data successfully Completed.');
-            return redirect()->route('progress.admin');
+            return redirect()->route('admin.progress');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -131,7 +131,7 @@ class ProgressController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data Progress Canceled.');
-            return redirect()->route('progress.admin');
+            return redirect()->route('admin.progress');
         } else {
             Session::flash('failed', 'Data Canceled Failed.');
         }
@@ -237,7 +237,7 @@ class ProgressController extends Controller
 
             if ($update) {
                 Session::flash('success', 'Data Progress On Hold.');
-                return redirect()->route('progress.admin');
+                return redirect()->route('admin.progress');
             }
         } else {
             Session::flash('failed', 'Data Failed to Insert.');

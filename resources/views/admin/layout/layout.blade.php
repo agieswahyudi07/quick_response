@@ -54,7 +54,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="{{route('dashboard.admin')}}" class="logo d-flex align-items-center">
+      <a href="{{route('admin.dashboard')}}" class="logo d-flex align-items-center">
         <img src="{{ asset('assets/img/alhasra.png')}}" alt="">
         <span class="d-none d-lg-block">Quick Response</span>
       </a>
@@ -280,7 +280,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('dashboard.admin') }}">
+        <a class="nav-link " href="{{ route('admin.dashboard') }}">
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
@@ -289,7 +289,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('queue.admin') }}">
+        <a class="nav-link " href="{{ route('admin.queue') }}">
           <i class="bi bi-card-list"></i>
           <span>Queue</span>
         </a>
@@ -298,7 +298,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('progress.admin') }}">
+        <a class="nav-link " href="{{ route('admin.progress') }}">
           <i class="bi bi-arrow-clockwise"></i>
           <span>On Progress</span>
         </a>
@@ -307,7 +307,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('completed.admin') }}">
+        <a class="nav-link " href="{{ route('admin.completed') }}">
           <i class="bi bi-check-circle-fill"></i>
           <span>Completed</span>
         </a>
@@ -316,7 +316,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('hold.admin') }}">
+        <a class="nav-link " href="{{ route('admin.hold') }}">
           <i class="bi bi-grid"></i>
           <span>Hold</span>
         </a>
@@ -325,7 +325,7 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link " href="{{ route('need.admin') }}">
+        <a class="nav-link " href="{{ route('admin.need') }}">
           <i class="bi bi-cart-dash"></i>
           <span>Need</span>
         </a>

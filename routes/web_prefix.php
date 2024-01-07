@@ -29,7 +29,7 @@ Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
 
 
 
-Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces'], 'as' => 'admin.'], function () {
 
     // START ROUTE ADMIN=================================================================================================================================   // ROUTE ADMIN
     Route::get('/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard');
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
 });
 
 
-Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'user.'], function () {
+Route::group(['prefix' => 'user', 'middleware' => ['roleAcces'], 'as' => 'user.'], function () {
 
     // START ROUTE USER==============================================================================================// START ROUTE USER
     Route::get('/dashboard', [DashboardController::class, 'dashboard_user'])->name('dashboard');

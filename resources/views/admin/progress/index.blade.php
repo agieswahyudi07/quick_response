@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.admin') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ $data['title'] }}</h5>
                     @include('message/errors')
-                    <a href="{{ route('progress.export') }}">
+                    <a href="{{ route('admin.progress.export') }}">
                         <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                     </a>
 
@@ -60,18 +60,18 @@
                                     <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
                                     <td>
-                                        <a href="{{ route('progress.completed', $complaint->complaint_id) }}"
+                                        <a href="{{ route('admin.progress.completed', $complaint->complaint_id) }}"
                                             id="completeButton">
                                             <button class="btn btn-outline-success show-alert-complete-box">
                                                 <i class="bi bi-check-circle-fill"></i>
                                             </button>
                                         </a>
-                                        <a href="{{ route('progress.cancel', $complaint->complaint_id) }}">
+                                        <a href="{{ route('admin.progress.cancel', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-danger show-alert-cancel-box">
                                                 <i class="bi bi-backspace-fill"></i>
                                             </button>
                                         </a>
-                                        <a href="{{ route('progress.hold.create', $complaint->complaint_id) }}">
+                                        <a href="{{ route('admin.progress.hold.create', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-warning show-alert-hold-box">Hold</button>
                                         </a>
                                     </td>

@@ -115,7 +115,7 @@ class NeedController extends Controller
 
         if ($insert) {
             Session::flash('success', 'Data successfully Inserted.');
-            return redirect()->route('need.admin');
+            return redirect()->route('admin.need');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }

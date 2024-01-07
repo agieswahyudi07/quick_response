@@ -138,7 +138,7 @@ class QueueController extends Controller
 
         if ($insert) {
             Session::flash('success', 'Data successfully Inserted.');
-            return redirect()->route('queue.admin');
+            return redirect()->route('admin.queue');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -151,7 +151,7 @@ class QueueController extends Controller
         // dd($complaint);
         if (!$complaint) {
             Session::flash('error', 'Complaint not found.');
-            return redirect()->route('queue.admin');
+            return redirect()->route('admin.queue');
         }
 
 
@@ -184,7 +184,7 @@ class QueueController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data successfully Proceed.');
-            return redirect()->route('queue.admin');
+            return redirect()->route('admin.queue');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -269,7 +269,7 @@ class QueueController extends Controller
         $update = $queue->update($data);
 
         Session::flash('success', 'Data successfully updated.');
-        return redirect()->route('queue.admin');
+        return redirect()->route('admin.queue');
     }
 
     /**
@@ -280,7 +280,7 @@ class QueueController extends Controller
     {
         ComplaintModel::find($id)->delete();
         Session::flash('success', 'Data successfully deleted.');
-        return redirect()->route('queue.admin');
+        return redirect()->route('admin.queue');
     }
 
     public function queue_export()

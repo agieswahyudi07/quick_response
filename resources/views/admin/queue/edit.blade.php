@@ -7,7 +7,7 @@
         <h1>Edit {{ $data['title'] }}</h1>
         <nav>
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
             <li class="breadcrumb-item">Tables</li>
             <li class="breadcrumb-item">Data</li>
             <li class="breadcrumb-item active">Edit {{ $data['title'] }}</li>
@@ -22,7 +22,7 @@
                     <div class="card-body mt-3">
                         <h5 class="card-title">Edit {{ $data['title'] }}</h5>
                         @include('message/errors')
-                        <form class="row g-3"  method="POST" action="{{ route('queue.update', $data['complaint']->complaint_id) }}">
+                        <form class="row g-3"  method="POST" action="{{ route('admin.queue.update', $data['complaint']->complaint_id) }}">
                             @csrf
                             @method('PUT')
                             <div class="row mb-3">
@@ -125,6 +125,17 @@
 </div>
 
  <!-- General Form Elements -->
+ <script>
+    $(document).ready(function() {
 
+        // Fungsi untuk membuat input uppercase ketika diketikkan
+        $('input[type="text"]').on('input', function() {
+            $(this).val(function(_, val) {
+                return val.toUpperCase();
+            });
+        });
+
+    });
+</script>
 
 @endsection

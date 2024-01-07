@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.user') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -29,13 +29,13 @@
                       <input type="date" id="dateFilter" class="form-control">
                       <button class="btn btn-primary mt-2" id="applyFilter">Apply Filter</button>
                       <button class="btn btn-secondary mt-2" id="resetFilter">Reset Filter</button>
-                      <a href="{{ route('completed.export') }}">
+                      <a href="{{ route('user.completed.export') }}">
                         <button class="btn btn-outline-success mt-2"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                       </a>
                       
                   </div>
                   <!-- End Date Selector -->
-                  <form id="filterForm" action="{{ route('completed.filter') }}" method="post" style="display: none;">
+                  <form id="filterForm" action="{{ route('user.completed.filter') }}" method="post" style="display: none;">
                       @csrf
                       <input type="hidden" id="filterDateInput" name="filter_date">
                   </form>

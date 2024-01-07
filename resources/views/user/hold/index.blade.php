@@ -7,7 +7,7 @@
     <h1>Data {{ $data['title'] }}</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('dashboard.user') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('user.dashboard') }}">Home</a></li>
         <li class="breadcrumb-item">Tables</li>
         <li class="breadcrumb-item">Data</li>
         <li class="breadcrumb-item active">{{ $data['title'] }}</li>
@@ -24,7 +24,7 @@
                     @include('message/errors')
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <a href="{{ route('hold.export') }}">
+                            <a href="{{ route('user.hold.export') }}">
                                 <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
                             </a>
                         </div>
@@ -42,7 +42,6 @@
                                 <th scope="col">Time</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Location</th>
-                                <th scope="col">Actions</th> <!-- Updated header -->
                             </tr>
                         </thead>
                         <tbody>
@@ -64,13 +63,7 @@
                                     <td>{{ $complaint->complaint_time }}</td>
                                     <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
-                                    <td>
-                                        <a href="{{ route('hold.process', $complaint->complaint_id) }}"
-                                            id="processButton">
-                                            <button class="btn btn-outline-success show-alert-process-box">Process</button>
-                                        </a>
-                                        
-                                    </td>
+                                    
                                 </tr>
                             @endforeach
                         </tbody>
