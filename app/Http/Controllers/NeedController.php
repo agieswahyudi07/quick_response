@@ -16,7 +16,20 @@ class NeedController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_admin()
+    {
+        $need = NeedModel::with('complaint')
+            ->orderBy('need_id', 'desc')
+            ->get();
+
+        $data = [
+            'title' => 'Need',
+            'need' => $need
+        ];
+        return view('admin/need/index', compact('data'));
+    }
+
+    public function index_user()
     {
         $need = NeedModel::with('complaint')
             ->orderBy('need_id', 'asc')
@@ -26,7 +39,7 @@ class NeedController extends Controller
             'title' => 'Need',
             'need' => $need
         ];
-        return view('need/index', compact('data'));
+        return view('user/need/index', compact('data'));
     }
 
     /**
@@ -49,7 +62,7 @@ class NeedController extends Controller
             'complaint_id' => $id, // Mengirim nilai $id ke view
         ];
         // dd($data);
-        return view('need/add', compact('data'));
+        return view('admin/need/add', compact('data'));
     }
 
     /**
@@ -61,12 +74,13 @@ class NeedController extends Controller
         Session::flash('txtNeedQty', $request->txtNeedQty);
         Session::flash('txtNeedPrice', $request->txtNeedPrice);
         Session::flash('txtNeedDetail', $request->txtNeedDetail);
-
-
         Session::flash('selComplaint', $request->selComplaint);
-        $complaint = DB::table('ms_complaint')->where('complaint_id', '=', $request->selComplaint)->first();
+        $complaint = ComplaintModel::with('priority')
+            ->where('complaint_id', '=', $request->selComplaint)
+            ->first();
+
         if ($complaint) {
-            Session::flash('txtComplaint', $complaint->complaint_name);
+            Session::flash('txtComplaint', $complaint->priority->priority_name . ' - ' . $complaint->complaint_name . ' |' . $complaint->complaint_reporter);
         }
 
         // dd($complaint);
@@ -81,8 +95,8 @@ class NeedController extends Controller
 
         $complaint_id = $request->input('selComplaint');
         $need_item = $request->input('txtNeedName');
-        $need_qty = $request->input('txtNeedQty');
-        $need_price = $request->input('txtNeedPrice');
+        $need_qty = intval(str_replace(',', '',  $request->input('txtNeedQty')));
+        $need_price = intval(str_replace(',', '',  $request->input('txtNeedPrice')));
         $need_detail = $request->input('txtNeedDetail');
         $created_at = now();
 
@@ -101,7 +115,7 @@ class NeedController extends Controller
 
         if ($insert) {
             Session::flash('success', 'Data successfully Inserted.');
-            return redirect()->route('need');
+            return redirect()->route('need.admin');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -120,6 +134,6 @@ class NeedController extends Controller
             ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
             ->get();
         // dd($data);
-        return Excel::download(new NeedExport($data), 'Queue |' . Carbon::now()->timestamp . '.xlsx');
+        return Excel::download(new NeedExport($data), 'Need |' . Carbon::now()->timestamp . '.xlsx');
     }
 }

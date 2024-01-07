@@ -19,7 +19,7 @@ class CompletedController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index(Request $request)
+    public function index_admin(Request $request)
     {
 
         $complaint = ComplaintModel::orderBy('priority_id', 'asc')
@@ -47,7 +47,38 @@ class CompletedController extends Controller
             'complaint_date_filter' => $complaint_date_filter,
         ];
 
-        return view('completed/index', compact('data'));
+        return view('admin/completed/index', compact('data'));
+    }
+
+    public function index_user(Request $request)
+    {
+
+        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 3)
+            ->get();
+
+        $query = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 3);
+
+        // Filter berdasarkan tanggal jika ada dalam request
+        if ($request->has('filter_date')) {
+            $filterDate = $request->input('filter_date');
+
+            // Jika filter_date kosong, abaikan filter tanggal
+            if (!empty($filterDate)) {
+                $query->whereDate('complaint_completed_date', '=', $filterDate);
+            }
+        }
+
+        $complaint_date_filter = $query->get();
+
+        $data = [
+            'title' => 'Completed',
+            'complaint' => $complaint,
+            'complaint_date_filter' => $complaint_date_filter,
+        ];
+
+        return view('user/completed/index', compact('data'));
     }
 
     public function completed_export()

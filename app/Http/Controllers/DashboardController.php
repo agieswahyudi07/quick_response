@@ -12,7 +12,7 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function dashboard_admin()
     {
 
         // $complaintModel = new ComplaintModel;
@@ -43,54 +43,40 @@ class DashboardController extends Controller
             'recent_activity' => $recent_activity,
             'recent_complaint' => $recent_complaint,
         ];
-        return view('dashboard/dashboard', compact('data'));
+        return view('admin/dashboard/dashboard', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function dashboard_user()
     {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        // $complaintModel = new ComplaintModel;
+        $queue = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 1)
+            ->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DashboardModel $dashboardModel)
-    {
-        //
-    }
+        $progress = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 2)
+            ->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DashboardModel $dashboardModel)
-    {
-        //
-    }
+        $completed = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 3)
+            ->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, DashboardModel $dashboardModel)
-    {
-        //
-    }
+        $recent_activity = ComplaintModel::orderBy('status_id', 'asc')
+            ->where('status_id', '=', 2)
+            ->get();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(DashboardModel $dashboardModel)
-    {
-        //
+        $recent_complaint = ComplaintModel::orderBy('complaint_id', 'desc')
+            ->get();
+
+        $data = [
+            'title' => 'Complaint',
+            'queue' => $queue->count(),
+            'progress' => $progress->count(),
+            'completed' => $completed->count(),
+            'recent_activity' => $recent_activity,
+            'recent_complaint' => $recent_complaint,
+        ];
+        return view('user/dashboard/dashboard', compact('data'));
     }
 }

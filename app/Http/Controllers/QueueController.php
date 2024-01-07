@@ -18,7 +18,7 @@ class QueueController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_admin()
     {
 
         // $ComplaintModel = new ComplaintModel;
@@ -29,7 +29,21 @@ class QueueController extends Controller
             'title' => 'Queue',
             'complaint' => $complaint
         ];
-        return view('queue/index', compact('data'));
+        return view('admin/queue/index', compact('data'));
+    }
+
+    public function index_user()
+    {
+
+        // $ComplaintModel = new ComplaintModel;
+        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 1)
+            ->get();
+        $data = [
+            'title' => 'Queue',
+            'complaint' => $complaint
+        ];
+        return view('user/queue/index', compact('data'));
     }
 
     public function queue()
@@ -58,7 +72,7 @@ class QueueController extends Controller
             'title' => 'Queue',
             'priority' => $priority
         ];
-        return view('queue/add', compact('data'));
+        return view('admin/queue/add', compact('data'));
     }
 
     /**
@@ -124,7 +138,7 @@ class QueueController extends Controller
 
         if ($insert) {
             Session::flash('success', 'Data successfully Inserted.');
-            return redirect()->route('queue');
+            return redirect()->route('queue.admin');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -137,7 +151,7 @@ class QueueController extends Controller
         // dd($complaint);
         if (!$complaint) {
             Session::flash('error', 'Complaint not found.');
-            return redirect()->route('queue');
+            return redirect()->route('queue.admin');
         }
 
 
@@ -170,7 +184,7 @@ class QueueController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data successfully Proceed.');
-            return redirect()->route('queue');
+            return redirect()->route('queue.admin');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -198,7 +212,7 @@ class QueueController extends Controller
             'priority' => $priority
         ];
 
-        return view('queue/edit', compact('data'));
+        return view('admin/queue/edit', compact('data'));
     }
 
     /**
@@ -255,7 +269,7 @@ class QueueController extends Controller
         $update = $queue->update($data);
 
         Session::flash('success', 'Data successfully updated.');
-        return redirect()->route('queue');
+        return redirect()->route('queue.admin');
     }
 
     /**
@@ -266,7 +280,7 @@ class QueueController extends Controller
     {
         ComplaintModel::find($id)->delete();
         Session::flash('success', 'Data successfully deleted.');
-        return redirect()->route('queue');
+        return redirect()->route('queue.admin');
     }
 
     public function queue_export()

@@ -18,7 +18,7 @@ class ProgressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index_admin()
     {
         // $ComplaintModel = new ComplaintModel;
         $complaint = ComplaintModel::orderBy('priority_id', 'asc')
@@ -28,7 +28,20 @@ class ProgressController extends Controller
             'title' => 'On Progress',
             'complaint' => $complaint
         ];
-        return view('progress/index', compact('data'));
+        return view('admin/progress/index', compact('data'));
+    }
+
+    public function index_user()
+    {
+        // $ComplaintModel = new ComplaintModel;
+        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 2)
+            ->get();
+        $data = [
+            'title' => 'On Progress',
+            'complaint' => $complaint
+        ];
+        return view('user/progress/index', compact('data'));
     }
 
     // On Progress Complete
@@ -73,7 +86,7 @@ class ProgressController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data successfully Completed.');
-            return redirect()->route('progress');
+            return redirect()->route('progress.admin');
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
         }
@@ -118,7 +131,7 @@ class ProgressController extends Controller
 
         if ($update) {
             Session::flash('success', 'Data Progress Canceled.');
-            return redirect()->route('progress');
+            return redirect()->route('progress.admin');
         } else {
             Session::flash('failed', 'Data Canceled Failed.');
         }
@@ -140,7 +153,7 @@ class ProgressController extends Controller
             'complaint_id' => $id, // Mengirim nilai $id ke view
         ];
         // dd($data);
-        return view('progress/add', compact('data'));
+        return view('admin/progress/add', compact('data'));
     }
 
     public function progress_hold_store(Request $request)
@@ -169,8 +182,8 @@ class ProgressController extends Controller
 
         $complaint_id = $request->input('selComplaint');
         $need_item = $request->input('txtNeedName');
-        $need_qty = $request->input('txtNeedQty');
-        $need_price = $request->input('txtNeedPrice');
+        $need_qty = intval(str_replace(',', '',  $request->input('txtNeedQty')));
+        $need_price = intval(str_replace(',', '',  $request->input('txtNeedPrice')));
         $need_detail = $request->input('txtNeedDetail');
         $created_at = now();
 
@@ -224,7 +237,7 @@ class ProgressController extends Controller
 
             if ($update) {
                 Session::flash('success', 'Data Progress On Hold.');
-                return redirect()->route('progress');
+                return redirect()->route('progress.admin');
             }
         } else {
             Session::flash('failed', 'Data Failed to Insert.');
