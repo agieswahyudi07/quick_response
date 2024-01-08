@@ -164,7 +164,7 @@ class QueueController extends Controller
         $complaint_desc = $complaint->complaint_desc;
         $compalint_priority = $complaint->priority_id;
         $status_id = '2'; // Anda mungkin ingin mengambil nilai ini dari input atau data lain
-        $proceed_at = now();
+        $proceed_at = now()->format('Y-m-d H:i:s');
 
         $data = [
             'complaint_name' => $complaint_name,
@@ -175,7 +175,7 @@ class QueueController extends Controller
             'priority_id' => $compalint_priority,
             'complaint_desc' => $complaint_desc,
             'status_id' => $status_id,
-            'created_at' => $proceed_at,
+            'proceed_at' => $proceed_at,
         ];
         // dd($data);
 

@@ -96,7 +96,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
 
     // completed user  
     Route::get('/completed', [CompletedController::class, 'index_user'])->name('completed');
-    Route::post('/completed', [CompletedController::class, 'index_admin'])->name('completed.filter');
+    Route::post('/completed', [CompletedController::class, 'index_user'])->name('completed.filter');
     Route::get('/completed/export', [CompletedController::class, 'completed_export'])->name('completed.export');
 
 
