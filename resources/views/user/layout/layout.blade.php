@@ -17,8 +17,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Favicons -->
-  <link href="{{ asset('assets/img/favicon.png ') }}" rel="icon">
-  <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <link href="{{ asset('assets/img/alhasra.png ') }}" rel="icon">
+  <link href="{{ asset('assets/img/alhasra.png') }}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -260,7 +260,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}">
+              <a class="dropdown-item d-flex align-items-center" href="{{ route('user.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>

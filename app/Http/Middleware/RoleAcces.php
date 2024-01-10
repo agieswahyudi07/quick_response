@@ -15,10 +15,20 @@ class RoleAcces
      */
     public function handle(Request $request, Closure $next, $role): Response
     {
-        if (auth()->user()->role == $role) {
-            return $next($request);
+        if (auth()->check()) {
+            if (is_null($role)) {
+                return redirect()->route('login');
+            }
+
+            if (empty($role)) {
+                return redirect()->back();
+            }
+
+            if (auth()->user()->role == $role) {
+                return $next($request);
+            }
         }
 
-        abort(403, 'Unauthorized');
+        return redirect()->route('login');
     }
 }

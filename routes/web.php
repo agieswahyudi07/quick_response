@@ -1,13 +1,14 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HoldController;
+use App\Http\Controllers\NeedController;
+use App\Http\Controllers\SesiController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\CompletedController;
-use App\Http\Controllers\HoldController;
-use App\Http\Controllers\NeedController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SesiController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,19 +21,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware(['guest'])->group(function () {
 
-Route::get('/', [SesiController::class, 'index'])->name('login');
-Route::get('/login', [SesiController::class, 'index'])->name('login.form');
-Route::post('/login', [SesiController::class, 'login'])->name('login.submit');
-Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
+Route::get('/', [SesiController::class, 'index'])->name('login')->middleware('guest');
+Route::get('/login', [SesiController::class, 'index'])->name('login.form')->middleware('guest');
+Route::post('/login', [SesiController::class, 'login'])->name('login.submit')->middleware('guest');
 
+Route::get('/home', function () {
+    if (Auth::user()->role == 'admin') {
+        return redirect()->route('admin.dashboard');
+    } elseif (Auth::user()->role == 'user') {
+        return redirect()->route('user.dashboard');
+    }
+});
 
 
 Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 'admin.'], function () {
 
     // START ROUTE ADMIN=================================================================================================================================   // ROUTE ADMIN
     Route::get('/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard');
+    Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
+
 
     // queue admin
     Route::get('/queue', [QueueController::class, 'index_admin'])->name('queue');
@@ -83,7 +91,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
 
     // START ROUTE USER==============================================================================================// START ROUTE USER
     Route::get('/dashboard', [DashboardController::class, 'dashboard_user'])->name('dashboard');
-
+    Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
     // queue user
     Route::get('/queue', [QueueController::class, 'index_user'])->name('queue');
     Route::get('/queue/export', [QueueController::class, 'queue_export'])->name('queue.export');
@@ -113,9 +121,4 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
 
     // END ROUTE USER==============================================================================================// START ROUTE USER
 
-});
-
-
-Route::get('/home', function () {
-    return redirect()->route('dashboard');
 });
