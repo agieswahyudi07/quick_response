@@ -60,14 +60,17 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        @if($complaint_filter->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
-                                        @elseif($complaint_filter->priority_id == 2)
-                                            <div class="bg-warning">Operational</div>
-                                        @elseif($complaint_filter->priority_id == 3)
-                                            <div class="bg-primary">Non-Essential</div>
-                                        @endif
-                                    </td>
+                                      @if($complaint_filter->priority_id == 1)
+                                      <div class="bg-danger">Urgent</div>
+                                  @elseif($complaint_filter->priority_id == 2)
+                                      <div class="bg-warning">Operational - Umum</div>
+                                  @elseif($complaint_filter->priority_id == 3)
+                                      <div class="bg-warning">Operational - Siswa</div>
+                                  @elseif($complaint_filter->priority_id == 4)
+                                      <div class="bg-warning">Operational - Gukar</div>
+                                  @elseif($complaint_filter->priority_id == 5)
+                                      <div class="bg-primary">Non-Essential</div>
+                                  @endif
                                     <td>{{ $complaint_filter->complaint_name }}</td>
                                     <td>{{ $complaint_filter->complaint_reporter }}</td>
                                     <td>{{ $complaint_filter->complaint_time }}</td>

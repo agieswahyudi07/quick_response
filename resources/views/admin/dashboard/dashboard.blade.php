@@ -19,6 +19,34 @@
 
         <!-- Left side columns -->
         <div class="col-lg-12">
+
+          <div class="row">
+            <!-- On Progress Card -->
+            <div class="col-xxl-12 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="filter">
+                  {{-- <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a> --}}
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Total Complaint </h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="ri ri-list-check "></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{ $data['complaint'] }}</h6>
+                      <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"> Total</span>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End On Progress Card -->
+          </div>
           <div class="row">
 
             <!-- Queue Card -->

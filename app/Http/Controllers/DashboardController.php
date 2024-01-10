@@ -28,6 +28,9 @@ class DashboardController extends Controller
             ->where('status_id', '=', 3)
             ->get();
 
+        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+            ->get();
+
         $recent_activity = ComplaintModel::orderBy('status_id', 'asc')
             ->where('status_id', '=', 2)
             ->get();
@@ -39,6 +42,7 @@ class DashboardController extends Controller
             'title' => 'Complaint',
             'queue' => $queue->count(),
             'progress' => $progress->count(),
+            'complaint' => $complaint->count(),
             'completed' => $completed->count(),
             'recent_activity' => $recent_activity,
             'recent_complaint' => $recent_complaint,
@@ -62,6 +66,9 @@ class DashboardController extends Controller
             ->where('status_id', '=', 3)
             ->get();
 
+        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+            ->get();
+
         $recent_activity = ComplaintModel::orderBy('status_id', 'asc')
             ->where('status_id', '=', 2)
             ->get();
@@ -73,6 +80,7 @@ class DashboardController extends Controller
             'title' => 'Complaint',
             'queue' => $queue->count(),
             'progress' => $progress->count(),
+            'complaint' => $complaint->count(),
             'completed' => $completed->count(),
             'recent_activity' => $recent_activity,
             'recent_complaint' => $recent_complaint,

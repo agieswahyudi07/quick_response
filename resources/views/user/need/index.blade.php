@@ -56,12 +56,16 @@
                                     <td>{{ $need->complaint->complaint_name }}</td>
                                     <td>
                                         @if($need->complaint->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
-                                        @elseif($need->complaint->priority_id == 2)
-                                            <div class="bg-warning">Operational</div>
-                                        @elseif($need->complaint->priority_id == 3)
-                                            <div class="bg-primary">Non-Essential</div>
-                                        @endif
+                                        <div class="bg-danger">Urgent</div>
+                                    @elseif($need->complaint->priority_id == 2)
+                                        <div class="bg-warning">Operational - Umum</div>
+                                    @elseif($need->complaint->priority_id == 3)
+                                        <div class="bg-warning">Operational - Siswa</div>
+                                    @elseif($need->complaint->priority_id == 4)
+                                        <div class="bg-warning">Operational - Gukar</div>
+                                    @elseif($need->complaint->priority_id == 5)
+                                        <div class="bg-primary">Non-Essential</div>
+                                    @endif
                                     </td>
                                     {{-- <td>
                                         <a href="{{ route('queue.process', $need->need_id) }}"
