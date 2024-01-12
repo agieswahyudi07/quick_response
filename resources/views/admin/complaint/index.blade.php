@@ -20,28 +20,23 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">See by date</h5>
+                    <h5 class="card-title">{{ $data['title'] }}</h5>
                     @include('message/errors')
-
-                    <!-- Date Selector -->
-                    <div class="col-lg-2 mb-3">
-                        <label for="dateFilter" class="form-label">Filter by Date:</label>
-                        <input type="date" id="dateFilter" name="filter_date" class="form-control">
-                        <button class="btn btn-primary mt-2" id="applyFilter">Apply Filter</button>
-                        <button class="btn btn-secondary mt-2" id="resetFilter">Reset Filter</button>
-                        <a href="{{ route('admin.completed.export') }}">
-                            <button class="btn btn-outline-success mt-2"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
-                        </a>
+                
+                    <div class="row">
+                        <div class="col-lg-12 mb-2">
+                           
+                            <a href="{{ route('admin.complaint.export') }}">
+                                <button class="btn btn-outline-success"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
+                            </a>
+                        </div>
+                        
                     </div>
-                    <!-- End Date Selector -->
-                    <form id="filterForm" action="{{ route('admin.completed.filter') }}" method="post" style="display: none;" class="mt-3">
-                        @csrf
-                        <input type="hidden" id="filterDateInput" name="filter_date">
-                    </form>
-
+                    
+                   
+                    
                     <!-- Table with stripped rows -->
-
-                    <table class="table datatable" id="complaintTable">
+                    <table class="table datatable">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
@@ -49,13 +44,13 @@
                                 <th scope="col">Complaint</th>
                                 <th scope="col">Reporter</th>
                                 <th scope="col">Location</th>
-                                {{-- <th scope="col">Report Time</th>
+                                <th scope="col">Report Time</th>
                                 <th scope="col">Report Date</th>
                                 <th scope="col">Progress Time</th>
-                                <th scope="col">Progress Date</th> --}}
-                                <th scope="col">Status</th>
+                                <th scope="col">Progress Date</th>
                                 <th scope="col">Completed Time</th>
                                 <th scope="col">Completed Date</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -79,11 +74,23 @@
                                     <td>{{ $complaint->complaint_name }}</td>
                                     <td>{{ $complaint->complaint_reporter }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
-                                    <td><div class="badge bg-success">Completed</div></td>
-                                    <td>{{ $complaint->completed_at_time }}</td>
-                                    <td>{{ $complaint->completed_at_date }}</td>
+                                    <td>{{ $complaint->complaint_time }}</td>
+                                    <td>{{ $complaint->complaint_date }}</td>
+                                    <td>{{ $complaint->proceed_at_time }}</td>
+                                    <td>{{ $complaint->proceed_at_date }}</td>
                                     <td>
-                                        <a href="{{ route('admin.completed.show', $complaint->complaint_id) }}">
+                                        @if($complaint->status_id == 1)
+                                            <div class="badge bg-danger">Queue</div>
+                                        @elseif($complaint->status_id == 2)
+                                            <div class="badge bg-primary">On Progress</div>
+                                        @elseif($complaint->status_id == 3)
+                                            <div class="badge bg-success">Completed</div>
+                                        @elseif($complaint->status_id == 4)
+                                            <div class="badge bg-warning">Hold</div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.complaint.show', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-primary">
                                                 <i class="bi bi-eye"></i> Show
                                             </button>
@@ -97,29 +104,61 @@
 
                 </div>
             </div>
+
         </div>
     </div>
 </section>
 
 
-<script>
-    $(document).ready(function () {
-        $("#applyFilter").on("click", function () {
-            var dateFilter = $("#dateFilter").val();
-            $("#filterDateInput").val(dateFilter);
-            $("#filterForm").submit();
+</main><!-- End #main -->
+
+  <script>
+    // Saat dokumen siap
+    $(document).ready(function() {
+
+        $('.show-alert-process-box').on('click', function(e) {
+            // Mencegah tindakan default dari tautan
+            e.preventDefault();
+
+            // Menampilkan konfirmasi SweetAlert2
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You are about to process the complaint.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, process it!'
+            }).then((result) => {
+                // Jika pengguna mengonfirmasi
+                if (result.isConfirmed) {
+                    // Lanjutkan ke halaman yang ditentukan
+                    window.location.href = $(this).closest('a').attr('href');
+
+                }
+            });
         });
 
-        $("#resetFilter").on("click", function () {
-            // Reset the date input
-            $("#dateFilter").val('');
+        $('.show-alert-delete-box').on('click', function () {
+            var form = $(this).closest("form");
 
-            // Clear the filter date in the hidden input
-            $("#filterDateInput").val('');
-
-            // Submit the form
-            $("#filterForm").submit();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this item!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                } 
+            });
         });
+
     });
-</script>
+  </script>
+
+
+
 @endsection

@@ -42,6 +42,7 @@
                                 <th scope="col">Time</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Location</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Actions</th> <!-- Updated header -->
                             </tr>
                         </thead>
@@ -51,15 +52,15 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if($complaint->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
+                                            <div class="badge bg-danger">Urgent</div>
                                         @elseif($complaint->priority_id == 2)
-                                            <div class="bg-warning">Operational - Umum</div>
+                                            <div class="badge bg-warning">Operational - Umum</div>
                                         @elseif($complaint->priority_id == 3)
-                                            <div class="bg-warning">Operational - Siswa</div>
+                                            <div class="badge bg-warning">Operational - Siswa</div>
                                         @elseif($complaint->priority_id == 4)
-                                            <div class="bg-warning">Operational - Gukar</div>
+                                            <div class="badge bg-warning">Operational - Gukar</div>
                                         @elseif($complaint->priority_id == 5)
-                                            <div class="bg-primary">Non-Essential</div>
+                                            <div class="badge bg-primary">Non-Essential</div>
                                         @endif
                                     </td>
                                     <td>{{ $complaint->complaint_name }}</td>
@@ -67,6 +68,8 @@
                                     <td>{{ $complaint->complaint_time }}</td>
                                     <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
+                                    <td><div class="badge bg-warning">Hold</div></td>
+
                                     <td>
                                         <a href="{{ route('admin.hold.process', $complaint->complaint_id) }}"
                                             id="processButton">

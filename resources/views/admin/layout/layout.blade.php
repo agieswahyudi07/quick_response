@@ -229,36 +229,6 @@
               <hr class="dropdown-divider">
             </li>
 
-            {{-- <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
-                <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                <i class="bi bi-question-circle"></i>
-                <span>Need Help?</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li> --}}
-
             <li>
               <a class="dropdown-item d-flex align-items-center" href="{{ route('admin.logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
@@ -276,68 +246,58 @@
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.dashboard') }}">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.complaint') }}">
+                <i class="bi bi-card-list"></i>
+                <span>Complaint</span>
+            </a>
+        </li>
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.queue') }}">
+                <i class="bi bi-card-list"></i>
+                <span>Queue</span>
+            </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.queue') }}">
-          <i class="bi bi-card-list"></i>
-          <span>Queue</span>
-        </a>
-      </li><!-- End Queue Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.progress') }}">
+                <i class="bi bi-arrow-clockwise"></i>
+                <span>On Progress</span>
+            </a>
+        </li>
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.completed') }}">
+                <i class="bi bi-check-circle-fill"></i>
+                <span>Completed</span>
+            </a>
+        </li>
 
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.progress') }}">
-          <i class="bi bi-arrow-clockwise"></i>
-          <span>On Progress</span>
-        </a>
-      </li><!-- End On Progress Nav -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.hold') }}">
+                <i class="bi bi-grid"></i>
+                <span>Hold</span>
+            </a>
+        </li>
 
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.completed') }}">
-          <i class="bi bi-check-circle-fill"></i>
-          <span>Completed</span>
-        </a>
-      </li><!-- End Completed Nav -->
-      
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.hold') }}">
-          <i class="bi bi-grid"></i>
-          <span>Hold</span>
-        </a>
-      </li><!-- End Hold Nav -->
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('admin.need') }}">
-          <i class="bi bi-cart-dash"></i>
-          <span>Need</span>
-        </a>
-      </li><!-- End Hold Nav -->
-
-      
-
-      
-
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.need') }}">
+                <i class="bi bi-cart-dash"></i>
+                <span>Need</span>
+            </a>
+        </li>
     </ul>
+</aside><!-- End Sidebar-->
 
-  </aside><!-- End Sidebar-->
 
  @yield('main')
 

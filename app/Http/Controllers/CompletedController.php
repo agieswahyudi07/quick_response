@@ -21,11 +21,6 @@ class CompletedController extends Controller
 
     public function index_admin(Request $request)
     {
-
-        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 3)
-            ->get();
-
         $query = ComplaintModel::orderBy('priority_id', 'asc')
             ->where('status_id', '=', 3);
 
@@ -35,51 +30,76 @@ class CompletedController extends Controller
 
             // Jika filter_date kosong, abaikan filter tanggal
             if (!empty($filterDate)) {
-                $query->whereDate('complaint_completed_date', '=', $filterDate);
+                $query->whereDate('completed_at', '=', $filterDate);
             }
         }
 
-        $complaint_date_filter = $query->get();
+        $complaints = $query->get();
+
+        $formattedComplaints = $complaints->map(function ($complaint) {
+            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            return $complaint;
+        });
 
         $data = [
             'title' => 'Completed',
-            'complaint' => $complaint,
-            'complaint_date_filter' => $complaint_date_filter,
+            'complaint' => $formattedComplaints,
+            'complaint_date_filter' => $complaints, // Memasukkan hasil query tanpa format
         ];
 
         return view('admin/completed/index', compact('data'));
     }
 
-    public function index_user(Request $request)
+
+    public function completed_show_admin($id)
     {
+        $complaint = ComplaintModel::with('status')
+            ->with('priority')
+            ->where('complaint_id', '=', $id)
+            ->first();
 
-        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 3)
-            ->get();
+        // Pemformatan waktu dan tanggal
+        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+        $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+        $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
 
-        $query = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 3);
-
-        // Filter berdasarkan tanggal jika ada dalam request
-        if ($request->has('filter_date')) {
-            $filterDate = $request->input('filter_date');
-
-            // Jika filter_date kosong, abaikan filter tanggal
-            if (!empty($filterDate)) {
-                $query->whereDate('complaint_completed_date', '=', $filterDate);
-            }
-        }
-
-        $complaint_date_filter = $query->get();
+        $title = "Item Details";
 
         $data = [
-            'title' => 'Completed',
             'complaint' => $complaint,
-            'complaint_date_filter' => $complaint_date_filter,
+            'title' => $title,
         ];
 
-        return view('user/completed/index', compact('data'));
+        return view('admin.completed.show', compact('data'));
     }
+
+    public function completed_show_user($id)
+    {
+        $complaint = ComplaintModel::with('status')
+            ->with('priority')
+            ->where('complaint_id', '=', $id)
+            ->first();
+
+        // Pemformatan waktu dan tanggal
+        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+        $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+        $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+
+        $title = "Item Details";
+
+        $data = [
+            'complaint' => $complaint,
+            'title' => $title,
+        ];
+
+        return view('user.completed.show', compact('data'));
+    }
+
 
     public function completed_export()
     {

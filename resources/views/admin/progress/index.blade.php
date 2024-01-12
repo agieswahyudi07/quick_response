@@ -34,9 +34,10 @@
                                 <th scope="col">Priority</th>
                                 <th scope="col">Complaint</th>
                                 <th scope="col">Reporter</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
                                 <th scope="col">Location</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Proceed Time</th>
+                                <th scope="col">Proceed Date</th>
                                 <th scope="col">Actions</th> <!-- Updated header -->
                             </tr>
                         </thead>
@@ -46,36 +47,44 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if($complaint->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
+                                            <div class="badge bg-danger">Urgent</div>
                                         @elseif($complaint->priority_id == 2)
-                                            <div class="bg-warning">Operational - Umum</div>
+                                            <div class="badge bg-warning">Operational - Umum</div>
                                         @elseif($complaint->priority_id == 3)
-                                            <div class="bg-warning">Operational - Siswa</div>
+                                            <div class="badge bg-warning">Operational - Siswa</div>
                                         @elseif($complaint->priority_id == 4)
-                                            <div class="bg-warning">Operational - Gukar</div>
+                                            <div class="badge bg-warning">Operational - Gukar</div>
                                         @elseif($complaint->priority_id == 5)
-                                            <div class="bg-primary">Non-Essential</div>
+                                            <div class="badge bg-primary">Non-Essential</div>
                                         @endif
                                     </td>
                                     <td>{{ $complaint->complaint_name }}</td>
                                     <td>{{ $complaint->complaint_reporter }}</td>
-                                    <td>{{ $complaint->complaint_time }}</td>
-                                    <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->complaint_location }}</td>
+                                    <td><div class="badge bg-primary">On Progress</div></td>
+                                    <td>{{ $complaint->proceed_at_time }}</td>
+                                    <td>{{ $complaint->proceed_at_date }}</td>
                                     <td>
-                                        <a href="{{ route('admin.progress.completed', $complaint->complaint_id) }}"
+                                        <a href="{{ route('admin.progress.completed.create', $complaint->complaint_id) }}"
                                             id="completeButton">
                                             <button class="btn btn-outline-success show-alert-complete-box">
-                                                <i class="bi bi-check-circle-fill"></i>
+                                                <i class="bi bi-check-circle-fill"></i> Complete
                                             </button>
                                         </a>
                                         <a href="{{ route('admin.progress.cancel', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-danger show-alert-cancel-box">
-                                                <i class="bi bi-backspace-fill"></i>
+                                                <i class="bi bi-backspace-fill"></i> Cancel
+                                            </button>
+                                        </a>
+                                        <a href="{{ route('admin.progress.show', $complaint->complaint_id) }}">
+                                            <button class="btn btn-outline-primary show-alert-show-box">
+                                                <i class="bi bi-eye"></i> Show
                                             </button>
                                         </a>
                                         <a href="{{ route('admin.progress.hold.create', $complaint->complaint_id) }}">
-                                            <button class="btn btn-outline-warning show-alert-hold-box">Hold</button>
+                                            <button class="btn btn-outline-warning show-alert-hold-box">
+                                                <i class="bi bi-stop-circle"></i> Hold
+                                            </button>
                                         </a>
                                     </td>
                                 </tr>

@@ -7,6 +7,7 @@ use App\Http\Controllers\NeedController;
 use App\Http\Controllers\SesiController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\ComplaintController;
 use App\Http\Controllers\CompletedController;
 use App\Http\Controllers\DashboardController;
 
@@ -41,6 +42,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     Route::get('/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard');
     Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
 
+    // complaint admin 
+    Route::get('/complaint', [ComplaintController::class, 'index_admin'])->name('complaint');
+    Route::get('/complaint/show/{id}', [ComplaintController::class, 'complaint_show_admin'])->name('complaint.show');
+    Route::get('/complaint/export', [QueueController::class, 'queue_export'])->name('complaint.export');
+
 
     // queue admin
     Route::get('/queue', [QueueController::class, 'index_admin'])->name('queue');
@@ -49,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     Route::get('/queue/edit/{id}', [QueueController::class, 'queue_edit'])->name('queue.edit');
     Route::put('/queue/update/{id}', [QueueController::class, 'queue_update'])->name('queue.update');
     Route::get('/queue/process/{id}', [QueueController::class, 'queue_process'])->name('queue.process');
+    Route::get('/queue/show/{id}', [QueueController::class, 'queue_show_admin'])->name('queue.show');
     Route::get('/queue/export', [QueueController::class, 'queue_export'])->name('queue.export');
     Route::delete('/queue/destroy/{id}', [QueueController::class, 'queue_destroy'])->name('queue.destroy');
 
@@ -56,15 +63,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     // progress admin
     Route::get('/progress', [ProgressController::class, 'index_admin'])->name('progress');
     Route::get('/progress/cancel/{id}', [ProgressController::class, 'progress_cancel'])->name('progress.cancel');
-    Route::get('/progress/completed/{id}', [ProgressController::class, 'progress_completed'])->name('progress.completed');
+
+    Route::get('/progress/show/{id}', [ProgressController::class, 'progress_show_admin'])->name('progress.show');
+
+    Route::get('/progress/completed/create/{id?}', [ProgressController::class, 'progress_completed_create'])->name('progress.completed.create')->where('id', '.*');;
+    Route::post('/progress/completed/store', [ProgressController::class, 'progress_completed_store'])->name('progress.completed.store');
+
     Route::get('/progress/hold/create/{id?}', [ProgressController::class, 'progress_hold_create'])->name('progress.hold.create')->where('id', '.*');;
     Route::post('/progress/hold/store', [ProgressController::class, 'progress_hold_store'])->name('progress.hold.store');
+
     Route::get('/progress/export', [ProgressController::class, 'progress_export'])->name('progress.export');
 
 
     // completed admin  
     Route::get('/completed', [CompletedController::class, 'index_admin'])->name('completed');
     Route::post('/completed', [CompletedController::class, 'index_admin'])->name('completed.filter');
+    Route::get('/completed/show/{id}', [CompletedController::class, 'completed_show_admin'])->name('completed.show');
     Route::get('/completed/export', [CompletedController::class, 'completed_export'])->name('completed.export');
 
 

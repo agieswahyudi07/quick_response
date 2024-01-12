@@ -45,9 +45,10 @@
                                 <th scope="col">Priority</th>
                                 <th scope="col">Complaint</th>
                                 <th scope="col">Reporter</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
                                 <th scope="col">Location</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Report Time</th>
+                                <th scope="col">Report Date</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
@@ -57,30 +58,37 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if($complaint->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
+                                            <div class="badge bg-danger">Urgent</div>
                                         @elseif($complaint->priority_id == 2)
-                                            <div class="bg-warning">Operational - Umum</div>
+                                            <div class="badge bg-warning">Operational - Umum</div>
                                         @elseif($complaint->priority_id == 3)
-                                            <div class="bg-warning">Operational - Siswa</div>
+                                            <div class="badge bg-warning">Operational - Siswa</div>
                                         @elseif($complaint->priority_id == 4)
-                                            <div class="bg-warning">Operational - Gukar</div>
+                                            <div class="badge bg-warning">Operational - Gukar</div>
                                         @elseif($complaint->priority_id == 5)
-                                            <div class="bg-primary">Non-Essential</div>
+                                            <div class="badge bg-primary">Non-Essential</div>
                                         @endif
                                     </td>
                                     <td>{{ $complaint->complaint_name }}</td>
                                     <td>{{ $complaint->complaint_reporter }}</td>
+                                    <td>{{ $complaint->complaint_location }}</td>
+                                    <td><div class="badge bg-danger">Queue</div></td>
                                     <td>{{ $complaint->complaint_time }}</td>
                                     <td>{{ $complaint->complaint_date }}</td>
-                                    <td>{{ $complaint->complaint_location }}</td>
                                     <td>
                                         <a href="{{ route('admin.queue.process', $complaint->complaint_id) }}"
                                             id="processButton">
                                             <button class="btn btn-outline-success show-alert-process-box">Process</button>
                                         </a>
+
+                                        <a href="{{ route('admin.queue.show', $complaint->complaint_id) }}">
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-eye"></i> Show
+                                            </button>
+                                        </a>
                                         <a href="{{ route('admin.queue.edit', $complaint->complaint_id) }}">
                                             <button class="btn btn-outline-primary">
-                                                <i class="bi bi-pencil"></i>
+                                                <i class="bi bi-pencil"></i> Edit
                                             </button>
                                         </a>
                                         <form style="display: inline"
@@ -90,7 +98,7 @@
                                             @method('delete')
                                             <button type="button"
                                                 class="btn btn-outline-danger show-alert-delete-box">
-                                                <i class="bi bi-trash"></i>
+                                                <i class="bi bi-trash"></i> Delete
                                             </button>
                                         </form>
                                     </td>

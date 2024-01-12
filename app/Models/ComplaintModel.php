@@ -21,20 +21,21 @@ class ComplaintModel extends Model
         'complaint_location',
         'complaint_time',
         'complaint_date',
-        'complaint_completed_date',
         'complaint_desc',
         'status_id',
         'priority_id',
+        'proceed_at',
+        'completed_at',
+        'complaint_cause',
+        'complaint_solution',
         'created_at',
         'updated_at',
-        'proceed_at',
     ];
 
     // Atur kolom yang harus disembunyikan (hidden)
     protected $hidden = [
         'created_at',
         'updated_at',
-        'proceed_at',
     ];
 
     protected $primaryKey = 'complaint_id';

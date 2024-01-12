@@ -144,6 +144,24 @@ class QueueController extends Controller
         }
     }
 
+    public function queue_show_admin($id)
+    {
+
+        $complaint = ComplaintModel::with('status')
+            ->with('priority')
+            ->where('complaint_id', '=', $id)
+            ->first();
+
+        $title = "Item Details";
+
+        $data = [
+            'complaint'        => $complaint,
+            'title'       => $title,
+        ];
+        // dd($data);
+        return view('admin.queue.show', compact('data'));
+    }
+
     public function queue_process(Request $request, $id)
     {
 
@@ -165,7 +183,7 @@ class QueueController extends Controller
         $compalint_priority = $complaint->priority_id;
         $status_id = '2'; // Anda mungkin ingin mengambil nilai ini dari input atau data lain
         $proceed_at = now()->format('Y-m-d H:i:s');
-
+        // dd($proceed_at);
         $data = [
             'complaint_name' => $complaint_name,
             'complaint_reporter' => $complaint_reporter,
