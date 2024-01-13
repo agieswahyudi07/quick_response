@@ -85,6 +85,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     // hold admin
     Route::get('/hold', [HoldController::class, 'index_admin'])->name('hold');
     Route::get('/hold/process/{id}', [HoldController::class, 'hold_process'])->name('hold.process');
+    Route::get('/hold/show/{id}', [HoldController::class, 'hold_show_admin'])->name('hold.show');
     Route::get('/hold/export', [HoldController::class, 'hold_export'])->name('hold.export');
 
 

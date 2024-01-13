@@ -89,6 +89,60 @@ class HoldController extends Controller
         }
     }
 
+    public function hold_show_admin($id)
+    {
+        $complaint = ComplaintModel::with('status')
+            ->with('priority')
+            ->where('complaint_id', '=', $id)
+            ->first();
+
+        // Pemformatan waktu dan tanggal dari tabel ms_complaint
+        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+
+        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+        if ($complaint->completed_at) {
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+        }
+
+        $title = "Item Details";
+
+        $data = [
+            'complaint' => $complaint,
+            'title' => $title,
+        ];
+
+        return view('admin.hold.show', compact('data'));
+    }
+
+    public function hold_show_user($id)
+    {
+        $complaint = ComplaintModel::with('status')
+            ->with('priority')
+            ->where('complaint_id', '=', $id)
+            ->first();
+
+        // Pemformatan waktu dan tanggal dari tabel ms_complaint
+        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+
+        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+        if ($complaint->completed_at) {
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+        }
+
+        $title = "Item Details";
+
+        $data = [
+            'complaint' => $complaint,
+            'title' => $title,
+        ];
+
+        return view('user.hold.show', compact('data'));
+    }
+
     public function hold_export()
     {
         $columns = [

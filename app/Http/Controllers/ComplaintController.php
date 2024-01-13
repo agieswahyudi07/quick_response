@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ComplaintModel;
 
@@ -39,19 +40,28 @@ class ComplaintController extends Controller
 
     public function complaint_show_admin($id)
     {
-
         $complaint = ComplaintModel::with('status')
             ->with('priority')
             ->where('complaint_id', '=', $id)
             ->first();
 
+        // Pemformatan waktu dan tanggal dari tabel ms_complaint
+        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+
+        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+        if ($complaint->completed_at) {
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+        }
+
         $title = "Item Details";
 
         $data = [
-            'complaint'        => $complaint,
-            'title'       => $title,
+            'complaint' => $complaint,
+            'title' => $title,
         ];
-        // dd($data);
+
         return view('admin.complaint.show', compact('data'));
     }
 

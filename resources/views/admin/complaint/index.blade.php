@@ -78,6 +78,8 @@
                                     <td>{{ $complaint->complaint_date }}</td>
                                     <td>{{ $complaint->proceed_at_time }}</td>
                                     <td>{{ $complaint->proceed_at_date }}</td>
+                                    <td>{{ $complaint->completed_at_time }}</td>
+                                    <td>{{ $complaint->completed_at_date }}</td>
                                     <td>
                                         @if($complaint->status_id == 1)
                                             <div class="badge bg-danger">Queue</div>

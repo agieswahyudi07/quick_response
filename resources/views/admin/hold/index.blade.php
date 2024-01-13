@@ -75,6 +75,11 @@
                                             id="processButton">
                                             <button class="btn btn-outline-success show-alert-process-box">Process</button>
                                         </a>
+                                        <a href="{{ route('admin.hold.show', $complaint->complaint_id) }}">
+                                            <button class="btn btn-outline-primary">
+                                                <i class="bi bi-eye"></i> Show
+                                            </button>
+                                        </a>    
                                         
                                     </td>
                                 </tr>

@@ -61,11 +61,15 @@ class CompletedController extends Controller
             ->where('complaint_id', '=', $id)
             ->first();
 
-        // Pemformatan waktu dan tanggal
+        // Pemformatan waktu dan tanggal dari tabel ms_complaint
         $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
         $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
-        $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-        $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+
+        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+        if ($complaint->completed_at) {
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+        }
 
         $title = "Item Details";
 
@@ -84,11 +88,15 @@ class CompletedController extends Controller
             ->where('complaint_id', '=', $id)
             ->first();
 
-        // Pemformatan waktu dan tanggal
+        // Pemformatan waktu dan tanggal dari tabel ms_complaint
         $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
         $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
-        $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-        $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+
+        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+        if ($complaint->completed_at) {
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+        }
 
         $title = "Item Details";
 
@@ -99,6 +107,7 @@ class CompletedController extends Controller
 
         return view('user.completed.show', compact('data'));
     }
+
 
 
     public function completed_export()

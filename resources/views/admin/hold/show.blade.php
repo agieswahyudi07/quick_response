@@ -129,7 +129,7 @@
                     <p class="card-text text-left">
                         <strong>Trouble Solution :</strong> {{ $data['complaint']->complaint_solution }}<br>
                     </p>
-                    <a href="{{ route('admin.complaint') }}" class="btn btn-primary">Back</a>
+                    <a href="{{ route('admin.hold') }}" class="btn btn-primary">Back</a>
                 </div>
                 <div class="card-body">
                 </div>
