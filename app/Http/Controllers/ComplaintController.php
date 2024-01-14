@@ -10,33 +10,64 @@ class ComplaintController extends Controller
 {
     public function index_admin()
     {
-
-        // $ComplaintModel = new ComplaintModel;
-        $complaint = ComplaintModel::with('status')
+        // Mengambil koleksi dari model ComplaintModel
+        $complaints = ComplaintModel::with('status')
             ->orderBy('priority_id', 'asc')
             ->orderBy('status_id', 'asc')
             ->get();
+
+        $formattedComplaints = $complaints->map(function ($complaint) {
+            if ($complaint->proceed_at) {
+                $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+                $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            }
+
+            if ($complaint->completed_at) {
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            }
+
+            return $complaint;
+        });
+
         $data = [
             'title' => 'Complaint',
-            'complaint' => $complaint
+            'complaint' => $formattedComplaints,
         ];
+
         return view('admin/complaint/index', compact('data'));
     }
 
     public function index_user()
     {
-
-        // $ComplaintModel = new ComplaintModel;
-        $complaint = ComplaintModel::with('status')
+        // Mengambil koleksi dari model ComplaintModel
+        $complaints = ComplaintModel::with('status')
             ->orderBy('priority_id', 'asc')
             ->orderBy('status_id', 'asc')
             ->get();
+
+        $formattedComplaints = $complaints->map(function ($complaint) {
+            if ($complaint->proceed_at) {
+                $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+                $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            }
+
+            if ($complaint->completed_at) {
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            }
+
+            return $complaint;
+        });
+
         $data = [
             'title' => 'Complaint',
-            'complaint' => $complaint
+            'complaint' => $formattedComplaints,
         ];
-        return view('user/complaint/index', compact('data'));
+
+        return view('admin/complaint/index', compact('data'));
     }
+
 
     public function complaint_show_admin($id)
     {
@@ -48,7 +79,6 @@ class ComplaintController extends Controller
         // Pemformatan waktu dan tanggal dari tabel ms_complaint
         $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
         $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
-
         // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
         if ($complaint->completed_at) {
             $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');

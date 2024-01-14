@@ -32,60 +32,62 @@
                     </div>
 
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Priority</th>
-                                <th scope="col">Complaint</th>
-                                <th scope="col">Reporter</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Actions</th> <!-- Updated header -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data['complaint'] as $complaint)
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if($complaint->priority_id == 1)
-                                            <div class="badge bg-danger">Urgent</div>
-                                        @elseif($complaint->priority_id == 2)
-                                            <div class="badge bg-warning">Operational - Umum</div>
-                                        @elseif($complaint->priority_id == 3)
-                                            <div class="badge bg-warning">Operational - Siswa</div>
-                                        @elseif($complaint->priority_id == 4)
-                                            <div class="badge bg-warning">Operational - Gukar</div>
-                                        @elseif($complaint->priority_id == 5)
-                                            <div class="badge bg-primary">Non-Essential</div>
-                                        @endif
-                                    </td>
-                                    <td>{{ $complaint->complaint_name }}</td>
-                                    <td>{{ $complaint->complaint_reporter }}</td>
-                                    <td>{{ $complaint->complaint_time }}</td>
-                                    <td>{{ $complaint->complaint_date }}</td>
-                                    <td>{{ $complaint->complaint_location }}</td>
-                                    <td><div class="badge bg-warning">Hold</div></td>
-
-                                    <td>
-                                        <a href="{{ route('admin.hold.process', $complaint->complaint_id) }}"
-                                            id="processButton">
-                                            <button class="btn btn-outline-success show-alert-process-box">Process</button>
-                                        </a>
-                                        <a href="{{ route('admin.hold.show', $complaint->complaint_id) }}">
-                                            <button class="btn btn-outline-primary">
-                                                <i class="bi bi-eye"></i> Show
-                                            </button>
-                                        </a>    
-                                        
-                                    </td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Complaint</th>
+                                    <th scope="col">Reporter</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Actions</th> <!-- Updated header -->
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($data['complaint'] as $complaint)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if($complaint->priority_id == 1)
+                                                <div class="badge bg-danger">Urgent</div>
+                                            @elseif($complaint->priority_id == 2)
+                                                <div class="badge bg-warning">Operational - Umum</div>
+                                            @elseif($complaint->priority_id == 3)
+                                                <div class="badge bg-warning">Operational - Siswa</div>
+                                            @elseif($complaint->priority_id == 4)
+                                                <div class="badge bg-warning">Operational - Gukar</div>
+                                            @elseif($complaint->priority_id == 5)
+                                                <div class="badge bg-primary">Non-Essential</div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $complaint->complaint_name }}</td>
+                                        <td>{{ $complaint->complaint_reporter }}</td>
+                                        <td>{{ $complaint->complaint_time }}</td>
+                                        <td>{{ $complaint->complaint_date }}</td>
+                                        <td>{{ $complaint->complaint_location }}</td>
+                                        <td><div class="badge bg-warning">Hold</div></td>
+    
+                                        <td>
+                                            <a href="{{ route('admin.hold.process', $complaint->complaint_id) }}"
+                                                id="processButton">
+                                                <button class="btn btn-outline-success show-alert-process-box">Process</button>
+                                            </a>
+                                            <a href="{{ route('admin.hold.show', $complaint->complaint_id) }}">
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-eye"></i> Show
+                                                </button>
+                                            </a>    
+                                            
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- End Table with stripped rows -->
 
                 </div>

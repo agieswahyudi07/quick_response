@@ -40,59 +40,61 @@
                     </form>
 
                     <!-- Table with stripped rows -->
-
-                    <table class="table datatable" id="complaintTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Priority</th>
-                                <th scope="col">Complaint</th>
-                                <th scope="col">Reporter</th>
-                                <th scope="col">Location</th>
-                                {{-- <th scope="col">Report Time</th>
-                                <th scope="col">Report Date</th>
-                                <th scope="col">Progress Time</th>
-                                <th scope="col">Progress Date</th> --}}
-                                <th scope="col">Status</th>
-                                <th scope="col">Completed Time</th>
-                                <th scope="col">Completed Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data['complaint'] as $complaint)
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable" id="complaintTable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if($complaint->priority_id == 1)
-                                            <div class="badge bg-danger">Urgent</div>
-                                        @elseif($complaint->priority_id == 2)
-                                            <div class="badge bg-warning">Operational - Umum</div>
-                                        @elseif($complaint->priority_id == 3)
-                                            <div class="badge bg-warning">Operational - Siswa</div>
-                                        @elseif($complaint->priority_id == 4)
-                                            <div class="badge bg-warning">Operational - Gukar</div>
-                                        @elseif($complaint->priority_id == 5)
-                                            <div class="badge bg-primary">Non-Essential</div>
-                                        @endif
-                                    </td>
-                                    <td>{{ $complaint->complaint_name }}</td>
-                                    <td>{{ $complaint->complaint_reporter }}</td>
-                                    <td>{{ $complaint->complaint_location }}</td>
-                                    <td><div class="badge bg-success">Completed</div></td>
-                                    <td>{{ $complaint->completed_at_time }}</td>
-                                    <td>{{ $complaint->completed_at_date }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.completed.show', $complaint->complaint_id) }}">
-                                            <button class="btn btn-outline-primary">
-                                                <i class="bi bi-eye"></i> Show
-                                            </button>
-                                        </a>
-                                    </td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Complaint</th>
+                                    <th scope="col">Reporter</th>
+                                    <th scope="col">Location</th>
+                                    {{-- <th scope="col">Report Time</th>
+                                    <th scope="col">Report Date</th>
+                                    <th scope="col">Progress Time</th>
+                                    <th scope="col">Progress Date</th> --}}
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Completed Time</th>
+                                    <th scope="col">Completed Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($data['complaint'] as $complaint)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if($complaint->priority_id == 1)
+                                                <div class="badge bg-danger">Urgent</div>
+                                            @elseif($complaint->priority_id == 2)
+                                                <div class="badge bg-warning">Operational - Umum</div>
+                                            @elseif($complaint->priority_id == 3)
+                                                <div class="badge bg-warning">Operational - Siswa</div>
+                                            @elseif($complaint->priority_id == 4)
+                                                <div class="badge bg-warning">Operational - Gukar</div>
+                                            @elseif($complaint->priority_id == 5)
+                                                <div class="badge bg-primary">Non-Essential</div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $complaint->complaint_name }}</td>
+                                        <td>{{ $complaint->complaint_reporter }}</td>
+                                        <td>{{ $complaint->complaint_location }}</td>
+                                        <td><div class="badge bg-success">Completed</div></td>
+                                        <td>{{ $complaint->completed_at_time }}</td>
+                                        <td>{{ $complaint->completed_at_date }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.completed.show', $complaint->complaint_id) }}">
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-eye"></i> Show
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    
                     <!-- End Table with stripped rows -->
 
                 </div>

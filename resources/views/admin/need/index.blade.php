@@ -36,65 +36,68 @@
                     </div>
                    
                     <!-- Table with stripped rows -->
-                    <table class="table datatable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Item</th>
-                                <th scope="col">Detail</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Complaint</th>
-                                <th scope="col">Priority</th>
-                            </tr> 
-                        </thead>
-                        <tbody>
-                            @foreach ($data['need'] as $need)
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $need->need_item }}</td>
-                                    <td>{{ $need->need_detail }}</td>
-                                    <td>{{ $need->need_qty }}</td>
-                                    <td>{{ $need->need_price }}</td>
-                                    <td>{{ $need->complaint->complaint_name }}</td>
-                                    <td>
-                                        @if($need->complaint->priority_id == 1)
-                                            <div class="bg-danger">Urgent</div>
-                                        @elseif($need->complaint->priority_id == 2)
-                                            <div class="bg-warning">Operational - Umum</div>
-                                        @elseif($need->complaint->priority_id == 3)
-                                            <div class="bg-warning">Operational - Siswa</div>
-                                        @elseif($need->complaint->priority_id == 4)
-                                            <div class="bg-warning">Operational - Gukar</div>
-                                        @elseif($need->complaint->priority_id == 5)
-                                            <div class="bg-primary">Non-Essential</div>
-                                        @endif
-                                    </td>
-                                    {{-- <td>
-                                        <a href="{{ route('queue.process', $need->need_id) }}"
-                                            id="processButton">
-                                            <button class="btn btn-outline-success show-alert-process-box">Process</button>
-                                        </a>
-                                        <a href="{{ route('queue.edit', $need->need_id) }}">
-                                            <button class="btn btn-outline-primary">
-                                                <i class="bi bi-pencil"></i>
-                                            </button>
-                                        </a>
-                                        <form style="display: inline"
-                                            method="POST"
-                                            action="{{ route('queue.destroy',$need->need_id) }}">
-                                            @csrf
-                                            @method('delete')
-                                            <button type="button"
-                                                class="btn btn-outline-danger show-alert-delete-box">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td> --}}
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Detail</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Complaint</th>
+                                    <th scope="col">Priority</th>
+                                </tr> 
+                            </thead>
+                            <tbody>
+                                @foreach ($data['need'] as $need)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $need->need_item }}</td>
+                                        <td>{{ $need->need_detail }}</td>
+                                        <td>{{ $need->need_qty }}</td>
+                                        <td>{{ $need->need_price }}</td>
+                                        <td>{{ $need->complaint->complaint_name }}</td>
+                                        <td>
+                                            @if($need->complaint->priority_id == 1)
+                                                <div class="bg-danger">Urgent</div>
+                                            @elseif($need->complaint->priority_id == 2)
+                                                <div class="bg-warning">Operational - Umum</div>
+                                            @elseif($need->complaint->priority_id == 3)
+                                                <div class="bg-warning">Operational - Siswa</div>
+                                            @elseif($need->complaint->priority_id == 4)
+                                                <div class="bg-warning">Operational - Gukar</div>
+                                            @elseif($need->complaint->priority_id == 5)
+                                                <div class="bg-primary">Non-Essential</div>
+                                            @endif
+                                        </td>
+                                        {{-- <td>
+                                            <a href="{{ route('queue.process', $need->need_id) }}"
+                                                id="processButton">
+                                                <button class="btn btn-outline-success show-alert-process-box">Process</button>
+                                            </a>
+                                            <a href="{{ route('queue.edit', $need->need_id) }}">
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-pencil"></i>
+                                                </button>
+                                            </a>
+                                            <form style="display: inline"
+                                                method="POST"
+                                                action="{{ route('queue.destroy',$need->need_id) }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="button"
+                                                    class="btn btn-outline-danger show-alert-delete-box">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+
                     <!-- End Table with stripped rows -->
 
                 </div>
