@@ -53,6 +53,40 @@ class CompletedController extends Controller
         return view('admin/completed/index', compact('data'));
     }
 
+    public function index_user(Request $request)
+    {
+        $query = ComplaintModel::orderBy('priority_id', 'asc')
+            ->where('status_id', '=', 3);
+
+        // Filter berdasarkan tanggal jika ada dalam request
+        if ($request->has('filter_date')) {
+            $filterDate = $request->input('filter_date');
+
+            // Jika filter_date kosong, abaikan filter tanggal
+            if (!empty($filterDate)) {
+                $query->whereDate('completed_at', '=', $filterDate);
+            }
+        }
+
+        $complaints = $query->get();
+
+        $formattedComplaints = $complaints->map(function ($complaint) {
+            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            return $complaint;
+        });
+
+        $data = [
+            'title' => 'Completed',
+            'complaint' => $formattedComplaints,
+            'complaint_date_filter' => $complaints, // Memasukkan hasil query tanpa format
+        ];
+
+        return view('user/completed/index', compact('data'));
+    }
+
 
     public function completed_show_admin($id)
     {

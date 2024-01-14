@@ -107,24 +107,34 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
     // START ROUTE USER==============================================================================================// START ROUTE USER
     Route::get('/dashboard', [DashboardController::class, 'dashboard_user'])->name('dashboard');
     Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
+
+    // complaint admin 
+    Route::get('/complaint', [ComplaintController::class, 'index_user'])->name('complaint');
+    Route::get('/complaint/show/{id}', [ComplaintController::class, 'complaint_show_user'])->name('complaint.show');
+    Route::get('/complaint/export', [QueueController::class, 'queue_export'])->name('complaint.export');
+
     // queue user
     Route::get('/queue', [QueueController::class, 'index_user'])->name('queue');
+    Route::get('/queue/show/{id}', [QueueController::class, 'queue_show_user'])->name('queue.show');
     Route::get('/queue/export', [QueueController::class, 'queue_export'])->name('queue.export');
 
 
     // progress user
     Route::get('/progress', [ProgressController::class, 'index_user'])->name('progress');
+    Route::get('/progress/show/{id}', [ProgressController::class, 'progress_show_user'])->name('progress.show');
     Route::get('/progress/export', [ProgressController::class, 'progress_export'])->name('progress.export');
 
 
     // completed user  
     Route::get('/completed', [CompletedController::class, 'index_user'])->name('completed');
+    Route::get('/completed/show/{id}', [CompletedController::class, 'completed_show_user'])->name('completed.show');
     Route::post('/completed', [CompletedController::class, 'index_user'])->name('completed.filter');
     Route::get('/completed/export', [CompletedController::class, 'completed_export'])->name('completed.export');
 
 
     // hold user
     Route::get('/hold', [HoldController::class, 'index_user'])->name('hold');
+    Route::get('/hold/show/{id}', [HoldController::class, 'hold_show_user'])->name('hold.show');
     Route::get('/hold/export', [HoldController::class, 'hold_export'])->name('hold.export');
 
 

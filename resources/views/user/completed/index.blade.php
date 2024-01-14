@@ -25,62 +25,76 @@
 
                     <!-- Date Selector -->
                     <div class="col-lg-2 mb-3">
-                      <label for="dateFilter" class="form-label">Filter by Date:</label>
-                      <input type="date" id="dateFilter" class="form-control">
-                      <button class="btn btn-primary mt-2" id="applyFilter">Apply Filter</button>
-                      <button class="btn btn-secondary mt-2" id="resetFilter">Reset Filter</button>
-                      <a href="{{ route('user.completed.export') }}">
-                        <button class="btn btn-outline-success mt-2"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
-                      </a>
-                      
-                  </div>
-                  <!-- End Date Selector -->
-                  <form id="filterForm" action="{{ route('user.completed.filter') }}" method="post" style="display: none;">
-                      @csrf
-                      <input type="hidden" id="filterDateInput" name="filter_date">
-                  </form>
+                        <label for="dateFilter" class="form-label">Filter by Date:</label>
+                        <input type="date" id="dateFilter" name="filter_date" class="form-control">
+                        <button class="btn btn-primary mt-2" id="applyFilter">Apply Filter</button>
+                        <button class="btn btn-secondary mt-2" id="resetFilter">Reset Filter</button>
+                        <a href="{{ route('user.completed.export') }}">
+                            <button class="btn btn-outline-success mt-2"><i class="ri ri-file-excel-2-line"></i> Excel Export</button>
+                        </a>
+                    </div>
+                    <!-- End Date Selector -->
+                    <form id="filterForm" action="{{ route('user.completed.filter') }}" method="post" style="display: none;" class="mt-3">
+                        @csrf
+                        <input type="hidden" id="filterDateInput" name="filter_date">
+                    </form>
 
                     <!-- Table with stripped rows -->
-
-                    <table class="table datatable" id="complaintTable">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Priority</th>
-                                <th scope="col">Complaint</th>
-                                <th scope="col">Reporter</th>
-                                <th scope="col">Time</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Location</th>
-                                <th scope="col">Completed Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data['complaint_date_filter'] as $complaint_filter)
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable" id="complaintTable">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                      @if($complaint_filter->priority_id == 1)
-                                      <div class="bg-danger">Urgent</div>
-                                  @elseif($complaint_filter->priority_id == 2)
-                                      <div class="bg-warning">Operational - Umum</div>
-                                  @elseif($complaint_filter->priority_id == 3)
-                                      <div class="bg-warning">Operational - Siswa</div>
-                                  @elseif($complaint_filter->priority_id == 4)
-                                      <div class="bg-warning">Operational - Gukar</div>
-                                  @elseif($complaint_filter->priority_id == 5)
-                                      <div class="bg-primary">Non-Essential</div>
-                                  @endif
-                                    <td>{{ $complaint_filter->complaint_name }}</td>
-                                    <td>{{ $complaint_filter->complaint_reporter }}</td>
-                                    <td>{{ $complaint_filter->complaint_time }}</td>
-                                    <td>{{ $complaint_filter->complaint_date }}</td>
-                                    <td>{{ $complaint_filter->complaint_location }}</td>
-                                    <td>{{ $complaint_filter->complaint_completed_date ? \Carbon\Carbon::parse($complaint_filter->complaint_completed_date)->format('Y-m-d') : '' }}</td>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Priority</th>
+                                    <th scope="col">Complaint</th>
+                                    <th scope="col">Reporter</th>
+                                    <th scope="col">Location</th>
+                                    {{-- <th scope="col">Report Time</th>
+                                    <th scope="col">Report Date</th>
+                                    <th scope="col">Progress Time</th>
+                                    <th scope="col">Progress Date</th> --}}
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Completed Time</th>
+                                    <th scope="col">Completed Date</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($data['complaint'] as $complaint)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if($complaint->priority_id == 1)
+                                                <div class="badge bg-danger">Urgent</div>
+                                            @elseif($complaint->priority_id == 2)
+                                                <div class="badge bg-warning">Operational - Umum</div>
+                                            @elseif($complaint->priority_id == 3)
+                                                <div class="badge bg-warning">Operational - Siswa</div>
+                                            @elseif($complaint->priority_id == 4)
+                                                <div class="badge bg-warning">Operational - Gukar</div>
+                                            @elseif($complaint->priority_id == 5)
+                                                <div class="badge bg-primary">Non-Essential</div>
+                                            @endif
+                                        </td>
+                                        <td>{{ $complaint->complaint_name }}</td>
+                                        <td>{{ $complaint->complaint_reporter }}</td>
+                                        <td>{{ $complaint->complaint_location }}</td>
+                                        <td><div class="badge bg-success">Completed</div></td>
+                                        <td>{{ $complaint->completed_at_time }}</td>
+                                        <td>{{ $complaint->completed_at_date }}</td>
+                                        <td>
+                                            <a href="{{ route('user.completed.show', $complaint->complaint_id) }}">
+                                                <button class="btn btn-outline-primary">
+                                                    <i class="bi bi-eye"></i> Show
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    
                     <!-- End Table with stripped rows -->
 
                 </div>
@@ -89,60 +103,6 @@
     </div>
 </section>
 
-{{-- <section class="section">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ $data['title'] }} Recently</h5>
-            @include('message/errors')
-            
-            <!-- Table with stripped rows -->
-            <table class="table datatable">
-              <thead>
-                <tr>
-                  <th scope="col">No</th>
-                  <th scope="col">Priority</th>
-                  <th scope="col">Complaint</th>
-                  <th scope="col">Reporter</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Location</th>
-                  <th scope="col">Completed Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($data['complaint'] as $complaint)
-                  <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>
-                      @if($complaint->priority_id == 1)
-                        <div class="bg-danger">Urgent</div>
-                      @elseif($complaint->priority_id == 2)
-                        <div class="bg-warning">Operational</div>
-                      @elseif($complaint->priority_id == 3)
-                        <div class="bg-primary">Non-Essential</div>
-                      @endif
-                    </td>
-                    <td>{{ $complaint->complaint_name }}</td>
-                    <td>{{ $complaint->complaint_reporter }}</td>
-                    <td>{{ $complaint->complaint_time }}</td>
-                    <td>{{ $complaint->complaint_date }}</td>
-                    <td>{{ $complaint->complaint_location }}</td>
-                    <td>{{ $complaint->complaint_completed_date ? \Carbon\Carbon::parse($complaint->complaint_completed_date)->format('Y-m-d') : '' }}</td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-            <!-- End Table with stripped rows -->
-  
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> --}}
-  
-</main><!-- End #main -->
 
 <script>
     $(document).ready(function () {

@@ -328,18 +328,6 @@
       </li><!-- End Hold Nav -->
 
     <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link " href="{{ route('need') }}">
-          <i class="bi bi-cart-dash"></i>
-          <span>Need</span>
-        </a>
-      </li><!-- End Hold Nav -->
-
-      
-
-      
-
     </ul>
 
   </aside><!-- End Sidebar-->
