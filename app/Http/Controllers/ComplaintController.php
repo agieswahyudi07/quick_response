@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ComplaintModel;
+use App\Exports\ComplaintExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ComplaintController extends Controller
 {
@@ -119,5 +121,22 @@ class ComplaintController extends Controller
         ];
 
         return view('user.complaint.show', compact('data'));
+    }
+
+    public function complaint_export()
+    {
+        $columns = [
+            'ms_complaint.*',
+            'ms_priority.priority_name',
+            'ms_status.status_name',
+        ];
+
+        $data = ComplaintModel::select($columns)
+            ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
+            ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
+            ->orderBy('status_id', 'asc')
+            ->get();
+
+        return Excel::download(new ComplaintExport($data), 'All_complaint-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 }

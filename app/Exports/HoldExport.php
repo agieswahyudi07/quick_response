@@ -2,9 +2,10 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\HoldModel;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class HoldExport implements FromCollection, WithHeadings
 {
@@ -20,18 +21,19 @@ class HoldExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        return $this->data->map(function ($hold, $index) {
-
+        return $this->data->map(function ($complaint, $index) {
             return [
                 'No' => $index + 1,
-                'Complaint' => $hold->complaint_name,
-                'Reporter' => $hold->complaint_reporter,
-                'Report Time' => $hold->complaint_time,
-                'Report Date' => $hold->complaint_date,
-                'Description' => $hold->complaint_desc,
-                'Status' => $hold->status->status_name,
-                'Priority' => $hold->priority->priority_name,
-                'Location' => $hold->complaint_location,
+                'Status' => $complaint->status->status_name,
+                'Priority' => $complaint->priority->priority_name,
+                'Complaint' => $complaint->complaint_name,
+                'Reporter' => $complaint->complaint_reporter,
+                'Location' => $complaint->complaint_location,
+                'Description' => $complaint->complaint_desc,
+                'Report Time' => $complaint->complaint_time,
+                'Report Date' => $complaint->complaint_date,
+                'Progress Time' => $complaint->proceed_at ? Carbon::parse($complaint->proceed_at)->format('H:i') : '',
+                'Progress Date' => $complaint->proceed_at ? Carbon::parse($complaint->proceed_at)->format('d-m-y') : '',
             ];
         });
     }
@@ -41,14 +43,17 @@ class HoldExport implements FromCollection, WithHeadings
     {
         return [
             'No',
-            'Complaint',
-            'Reporter',
-            'Report Time',
-            'Report Date',
-            'Description',
             'Status',
             'Priority',
+            'Complaint',
+            'Reporter',
             'Location',
+            'Description',
+            'Report Time',
+            'Report Date',
+            'Progress Time',
+            'Progress Date',
+
         ];
     }
 }

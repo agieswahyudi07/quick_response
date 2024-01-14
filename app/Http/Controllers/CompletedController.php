@@ -158,6 +158,6 @@ class CompletedController extends Controller
             ->where('ms_status.status_id', '=', 3)
             ->get();
 
-        return Excel::download(new CompletedExport($data), 'Completed |' . Carbon::now()->timestamp . '.xlsx');
+        return Excel::download(new CompletedExport($data), 'Completed-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 }

@@ -2,36 +2,36 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\QueueModel;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 class QueueExport implements FromCollection, WithHeadings
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     protected $data;
 
     public function __construct($data)
     {
         $this->data = $data;
     }
-    
+
     public function collection()
     {
-        return $this->data->map(function ($queue, $index) {
-            
+        return $this->data->map(function ($complaint, $index) {
             return [
                 'No' => $index + 1,
-                'Complaint' => $queue->complaint_name,
-                'Reporter' => $queue->complaint_reporter,
-                'Report Time' => $queue->complaint_time,
-                'Report Date' => $queue->complaint_date,
-                'Description' => $queue->complaint_desc,
-                'Status' => $queue->status->status_name,
-                'Priority' => $queue->priority->priority_name,
-                'Location' => $queue->complaint_location,
+                'Status' => $complaint->status->status_name,
+                'Priority' => $complaint->priority->priority_name,
+                'Complaint' => $complaint->complaint_name,
+                'Reporter' => $complaint->complaint_reporter,
+                'Location' => $complaint->complaint_location,
+                'Description' => $complaint->complaint_desc,
+                'Report Time' => $complaint->complaint_time,
+                'Report Date' => $complaint->complaint_date,
             ];
         });
     }
@@ -41,14 +41,14 @@ class QueueExport implements FromCollection, WithHeadings
     {
         return [
             'No',
-            'Complaint',
-            'Reporter',
-            'Report Time',
-            'Report Date',
-            'Description',
             'Status',
             'Priority',
+            'Complaint',
+            'Reporter',
             'Location',
+            'Description',
+            'Report Time',
+            'Report Date',
         ];
     }
 }

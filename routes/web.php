@@ -45,7 +45,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     // complaint admin 
     Route::get('/complaint', [ComplaintController::class, 'index_admin'])->name('complaint');
     Route::get('/complaint/show/{id}', [ComplaintController::class, 'complaint_show_admin'])->name('complaint.show');
-    Route::get('/complaint/export', [QueueController::class, 'queue_export'])->name('complaint.export');
+    Route::get('/complaint/export', [ComplaintController::class, 'complaint_export'])->name('complaint.export');
 
 
     // queue admin
@@ -111,7 +111,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
     // complaint admin 
     Route::get('/complaint', [ComplaintController::class, 'index_user'])->name('complaint');
     Route::get('/complaint/show/{id}', [ComplaintController::class, 'complaint_show_user'])->name('complaint.show');
-    Route::get('/complaint/export', [QueueController::class, 'queue_export'])->name('complaint.export');
+    Route::get('/complaint/export', [ComplaintController::class, 'complaint_export'])->name('complaint.export');
 
     // queue user
     Route::get('/queue', [QueueController::class, 'index_user'])->name('queue');

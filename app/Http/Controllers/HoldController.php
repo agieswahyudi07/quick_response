@@ -157,6 +157,6 @@ class HoldController extends Controller
             ->where('ms_status.status_id', '=', 4)
             ->get();
 
-        return Excel::download(new HoldExport($data), 'Hold |' . Carbon::now()->timestamp . '.xlsx');
+        return Excel::download(new HoldExport($data), 'Hold-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 }

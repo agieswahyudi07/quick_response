@@ -351,6 +351,6 @@ class QueueController extends Controller
             ->where('ms_status.status_id', '=', 1)
             ->get();
 
-        return Excel::download(new QueueExport($data), 'Queue |' . Carbon::now()->timestamp . '.xlsx');
+        return Excel::download(new QueueExport($data), 'Queue-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 }

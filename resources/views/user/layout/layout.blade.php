@@ -318,12 +318,12 @@
             </a>
         </li>
 
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="{{ route('user.need') }}">
                 <i class="bi bi-cart-dash"></i>
                 <span>Need</span>
             </a>
-        </li>
+        </li> --}}
     </ul>
 </aside><!-- End Sidebar-->
 

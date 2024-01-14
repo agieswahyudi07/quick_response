@@ -3,22 +3,22 @@
 namespace App\Exports;
 
 use Carbon\Carbon;
-use App\Models\ProgressModel;
+use App\Models\ComplaintModel;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ProgressExport implements FromCollection, WithHeadings
+class ComplaintExport implements FromCollection, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
      */
     protected $data;
 
+
     public function __construct($data)
     {
         $this->data = $data;
     }
-
     public function collection()
     {
         return $this->data->map(function ($complaint, $index) {
@@ -34,6 +34,8 @@ class ProgressExport implements FromCollection, WithHeadings
                 'Report Date' => $complaint->complaint_date,
                 'Progress Time' => $complaint->proceed_at ? Carbon::parse($complaint->proceed_at)->format('H:i') : '',
                 'Progress Date' => $complaint->proceed_at ? Carbon::parse($complaint->proceed_at)->format('d-m-y') : '',
+                'Completed Time' => $complaint->completed_at ? Carbon::parse($complaint->completed_at)->format('H:i') : '',
+                'Completed Date' => $complaint->completed_at ? Carbon::parse($complaint->completed_at)->format('d-m-y') : '',
                 'Trouble' => $complaint->complaint_cause,
                 'Solution' => $complaint->complaint_solution,
 
@@ -56,6 +58,10 @@ class ProgressExport implements FromCollection, WithHeadings
             'Report Date',
             'Progress Time',
             'Progress Date',
+            'Completed Time',
+            'Completed Date',
+            'Trouble',
+            'Solution',
 
         ];
     }

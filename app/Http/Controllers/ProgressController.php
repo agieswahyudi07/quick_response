@@ -396,6 +396,6 @@ class ProgressController extends Controller
             ->where('ms_status.status_id', '=', 2)
             ->get();
 
-        return Excel::download(new ProgressExport($data), 'Progress |' . Carbon::now()->timestamp . '.xlsx');
+        return Excel::download(new ProgressExport($data), 'Progress-' . Carbon::now()->format('d-m-Y') . '.xlsx');
     }
 }
