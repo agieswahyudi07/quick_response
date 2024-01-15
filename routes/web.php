@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HoldController;
 use App\Http\Controllers\NeedController;
 use App\Http\Controllers\SesiController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\QueueController;
 use App\Http\Controllers\ProgressController;
 use App\Http\Controllers\ComplaintController;
@@ -41,6 +42,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
     // START ROUTE ADMIN=================================================================================================================================   // ROUTE ADMIN
     Route::get('/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard');
     Route::get('/logout', [SesiController::class, 'logout'])->name('logout');
+    Route::get('/register', [SesiController::class, 'register'])->name('register');
+    Route::get('/register', [SesiController::class, 'register_store'])->name('register.store');
 
     // complaint admin 
     Route::get('/complaint', [ComplaintController::class, 'index_admin'])->name('complaint');
@@ -91,9 +94,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
 
     // need admin
     Route::get('/need', [NeedController::class, 'index_admin'])->name('need');
-    Route::get('/need/create/{id?}', [NeedController::class, 'need_create'])->name('need.create')->where('id', '.*');
+    Route::get('/need/create/{id?}', [NeedController::class, 'need_create'])->name('need.creae')->where('id', '.*');
     Route::post('/need/store', [NeedController::class, 'need_store'])->name('need.store');
     Route::get('/need/export', [NeedController::class, 'need_export'])->name('need.export');
+
+    // Rotue User t
+    Route::get('/user', [UserController::class, 'user'])->name('user');
+    Route::get('/user/create', [UserController::class, 'user_create'])->name('user.create');
+    Route::post('/user/store', [UserController::class, 'user_store'])->name('user.store');
+    Route::get('/user/edit/{id}', [UserController::class, 'user_edit'])->name('user.edit');
+    Route::put('/user/update/{id}', [UserController::class, 'user_update'])->name('user.update');
+    Route::get('/user/export', [UserController::class, 'user_export'])->name('user.export');
+    Route::delete('/user/destroy/{id}', [UserController::class, 'user_destroy'])->name('user.destroy');
 
 
 

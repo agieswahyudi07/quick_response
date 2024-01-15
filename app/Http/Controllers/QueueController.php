@@ -277,7 +277,7 @@ class QueueController extends Controller
         $queue = ComplaintModel::find($id);
         if (!$queue) {
             Session::flash('error', 'Queue not found.');
-            return redirect()->route('/queue.index');
+            return redirect()->route('admin.queue');
         }
 
         $request->validate([

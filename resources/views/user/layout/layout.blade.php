@@ -274,56 +274,51 @@
 
   </header><!-- End Header -->
 
+  <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.dashboard') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item  " href="{{ route('user.dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.complaint') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item" href="{{ route('user.complaint') }}">
                 <i class="bi bi-card-list"></i>
                 <span>Complaint</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.queue') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item" href="{{ route('user.queue') }}">
                 <i class="bi bi-card-list"></i>
                 <span>Queue</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.progress') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item" href="{{ route('user.progress') }}">
                 <i class="bi bi-arrow-clockwise"></i>
                 <span>On Progress</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.completed') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item" href="{{ route('user.completed') }}">
                 <i class="bi bi-check-circle-fill"></i>
                 <span>Completed</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.hold') }}">
+        <li class="nav-link collapsed">
+            <a class="nav-item" href="{{ route('user.hold') }}">
                 <i class="bi bi-grid"></i>
                 <span>Hold</span>
             </a>
         </li>
 
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.need') }}">
-                <i class="bi bi-cart-dash"></i>
-                <span>Need</span>
-            </a>
-        </li> --}}
     </ul>
 </aside><!-- End Sidebar-->
 
