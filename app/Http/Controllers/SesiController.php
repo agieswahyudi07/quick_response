@@ -39,13 +39,16 @@ class SesiController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ];
-            throw new Exception("Error Processing Request", 1);
+
             if (Auth::attempt($login)) {
                 if (Auth::user()->role == 'admin') {
                     return redirect()->route('admin.dashboard');
                 } elseif (Auth::user()->role == 'user') {
                     return redirect()->route('user.dashboard');
                 }
+            } else {
+                Session::flash('failed', 'email or password is invalid');
+                return redirect()->route('login');
             }
         } catch (\Throwable $th) {
             Session::flash($th->getMessage());

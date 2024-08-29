@@ -29,6 +29,8 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    {{-- jquery --}}
+    <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
 
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -83,7 +85,8 @@
                       </div>
                     </div> --}}
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                            <button class="btn btn-primary w-100" type="submit" id="loginButton"
+                                                name="loginButton">Login</button>
                                         </div>
                                         {{-- <div class="col-12">
                                           <p class="small mb-0">Don't have account? <a href="pages-register.html">Create an account</a></p>
@@ -110,6 +113,23 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
+
+    <script>
+        $(document).ready(function() {
+            $('#loginButton').on('click', function() {
+                let email = $('#email').val();
+                let password = $('#password').val();
+                console.log('email : ' + email);
+                console.log('password : ' + password);
+
+                if (email !== '' && password !== '') {
+                    $(this).prop('disabled', true);
+                    $(this).val('Processing...');
+                    $(this).closest('form').submit();
+                }
+            });
+        });
+    </script>
 
     <!-- Vendor JS Files -->
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
