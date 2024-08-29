@@ -22,65 +22,79 @@
                             <h5 class="card-title">Add {{ $data['title'] }}</h5>
                             @include('message/errors')
 
-                            <form class="row g-3" method="POST" action="{{ route('admin.queue.store') }}">
+                            <form class="row g-3 needs-validation mt-2" method="POST"
+                                action="{{ route('admin.queue.store') }}" id="formQueue" name="formQueue">
                                 @csrf
 
                                 {{-- Complaint Name --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintName" class="col-sm-2 col-form-label">Complaint</label>
+                                    <label for="txtComplaintName" class="col-sm-2 form-label">Complaint</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="txtComplaintName"
                                             name="txtComplaintName"
-                                            value="{{ old('txtComplaintName', Session::get('txtComplaintName')) }}">
+                                            value="{{ old('txtComplaintName', Session::get('txtComplaintName')) }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
 
                                 {{-- Complaint Reporter --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintReporter" class="col-sm-2 col-form-label">Reporter</label>
+                                    <label for="txtComplaintReporter" class="col-sm-2 form-label">Reporter</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="txtComplaintReporter"
                                             name="txtComplaintReporter"
-                                            value="{{ old('txtComplaintReporter', Session::get('txtComplaintReporter')) }}">
+                                            value="{{ old('txtComplaintReporter', Session::get('txtComplaintReporter')) }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
 
                                 {{-- Complaint Location --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintLocation" class="col-sm-2 col-form-label">Location</label>
+                                    <label for="txtComplaintLocation" class="col-sm-2 form-label">Location</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="txtComplaintLocation"
                                             name="txtComplaintLocation"
-                                            value="{{ old('txtComplaintLocation', Session::get('txtComplaintLocation')) }}">
+                                            value="{{ old('txtComplaintLocation', Session::get('txtComplaintLocation')) }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+
                                     </div>
                                 </div>
 
                                 {{-- Complaint Time --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintTime" class="col-sm-2 col-form-label">Time</label>
+                                    <label for="txtComplaintTime" class="col-sm-2 form-label">Time</label>
                                     <div class="col-sm-10">
                                         <input type="time" class="form-control" id="txtComplaintTime"
                                             name="txtComplaintTime"
-                                            value="{{ old('txtComplaintTime', Session::get('txtComplaintTime')) }}">
+                                            value="{{ old('txtComplaintTime', Session::get('txtComplaintTime')) }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+
                                     </div>
                                 </div>
 
                                 {{-- Complaint Date --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintDate" class="col-sm-2 col-form-label">Date</label>
+                                    <label for="txtComplaintDate" class="col-sm-2 form-label">Date</label>
                                     <div class="col-sm-10">
                                         <input type="date" class="form-control" id="txtComplaintDate"
                                             name="txtComplaintDate"
-                                            value="{{ old('txtComplaintDate', Session::get('txtComplaintDate')) }}">
+                                            value="{{ old('txtComplaintDate', Session::get('txtComplaintDate')) }}"
+                                            required>
+                                        <div class="invalid-feedback"></div>
+
                                     </div>
                                 </div>
 
                                 {{-- Priority --}}
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label">Priority</label>
+                                    <label class="col-sm-2 form-label">Priority</label>
                                     <div class="col-sm-10">
                                         <select class="form-select" aria-label="Default select example" id="selPriority"
-                                            name="selPriority">
+                                            name="selPriority" required>
                                             @if (session()->has('txtPriority'))
                                                 <option value="{{ Session::get('selPriority') }}">
                                                     {{ Session::get('txtPriority') }}</option>
@@ -93,12 +107,13 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                        <div class="invalid-feedback"></div>
                                     </div>
                                 </div>
 
                                 {{-- Complaint Description --}}
                                 <div class="row mb-3">
-                                    <label for="txtComplaintDesc" class="col-sm-2 col-form-label">Complaint
+                                    <label for="txtComplaintDesc" class="col-sm-2 form-label">Complaint
                                         Description</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control" style="height: 100px" id="txtComplaintDesc" name="txtComplaintDesc">{{ old('txtComplaintDesc', Session::get('txtComplaintDesc')) }}</textarea>
@@ -107,9 +122,10 @@
 
                                 {{-- Submit Button --}}
                                 <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label"></label>
+                                    <label class="col-sm-2 form-label"></label>
                                     <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                                        <button type="submit" class="btn btn-primary" id="submitQueue"
+                                            name="submitQueue">Submit Form</button>
                                     </div>
                                 </div>
                             </form><!-- End General Form Elements -->
@@ -127,6 +143,63 @@
                 $(this).val(function(_, val) {
                     return val.toUpperCase();
                 });
+            });
+
+            $('#formQueue').validate({
+                rules: {
+                    txtComplaintName: {
+                        required: true,
+                    },
+                    txtComplaintReporter: {
+                        required: true,
+                    },
+                    txtComplaintLocation: {
+                        required: true,
+                    },
+                    txtComplaintTime: {
+                        required: true,
+                    },
+                    txtComplaintDate: {
+                        required: true,
+                    },
+                    txtPriority: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    txtComplaintName: {
+                        required: "Please enter complaint.",
+                    },
+                    txtComplaintReporter: {
+                        required: "Please enter complaint reporter.",
+                    },
+                    txtComplaintLocation: {
+                        required: "Please enter complaint location.",
+                    },
+                    txtComplaintTime: {
+                        required: "Please pick complaint time.",
+                    },
+                    txtComplaintDate: {
+                        required: "Please pick complaint date.",
+                    },
+                    txtPriority: {
+                        required: "Please choose complaint priority.",
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    element.next('.invalid-feedback').html(error.html());
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid')
+                },
+                submitHandler: function(form) {
+                    $('#submitQueue').prop('disabled', true).val('Processing...');
+                    form.submit();
+                }
             });
 
         });

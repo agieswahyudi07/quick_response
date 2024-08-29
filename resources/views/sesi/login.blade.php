@@ -31,6 +31,10 @@
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
     {{-- jquery --}}
     <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
+    <!-- jQuery Validation -->
+    <script src="{{ asset('https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js') }}"></script>
+
 
     <!-- =======================================================
   * Template Name: NiceAdmin
@@ -60,7 +64,7 @@
                                     </div>
                                     @include('message/errors')
                                     <form class="row g-3 needs-validation" method="POST"
-                                        action="{{ route('login.submit') }}">
+                                        action="{{ route('login.submit') }}" id="loginForm" name="loginForm">
                                         @csrf
                                         <div class="col-12">
                                             <label for="email" class="form-label">e-mail</label>
@@ -68,7 +72,7 @@
                                                 {{-- <span class="input-group-text" id="inputGroupPrepend">@</span> --}}
                                                 <input type="text" name="email" class="form-control" id="email"
                                                     required value="{{ old('email', Session::get('email')) }}">
-                                                <div class="invalid-feedback">Please enter your email.</div>
+                                                <div class="invalid-feedback"></div>
                                             </div>
                                         </div>
 
@@ -76,7 +80,7 @@
                                             <label for="password" class="form-label">Password</label>
                                             <input type="password" name="password" class="form-control" id="password"
                                                 required>
-                                            <div class="invalid-feedback">Please enter your password!</div>
+                                            <div class="invalid-feedback"></div>
                                         </div>
                                         {{-- <div class="col-12">
                       <div class="form-check">
@@ -116,16 +120,38 @@
 
     <script>
         $(document).ready(function() {
-            $('#loginButton').on('click', function() {
-                let email = $('#email').val();
-                let password = $('#password').val();
-                console.log('email : ' + email);
-                console.log('password : ' + password);
-
-                if (email !== '' && password !== '') {
-                    $(this).prop('disabled', true);
-                    $(this).val('Processing...');
-                    $(this).closest('form').submit();
+            $('#loginForm').validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true
+                    }
+                },
+                messages: {
+                    email: {
+                        required: "Please enter your email.",
+                        email: "Please enter a valid email address."
+                    },
+                    password: {
+                        required: "Please enter your password."
+                    }
+                },
+                errorElement: 'span',
+                errorPlacement: function(error, element) {
+                    element.next('.invalid-feedback').html(error.html());
+                },
+                highlight: function(element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function(element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid')
+                },
+                submitHandler: function(form) {
+                    $('#loginButton').prop('disabled', true).val('Processing...');
+                    form.submit();
                 }
             });
         });

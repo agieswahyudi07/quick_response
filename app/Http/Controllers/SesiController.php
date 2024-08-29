@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\SesiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +22,6 @@ class SesiController extends Controller
      */
     public function login(Request $request)
     {
-        // dd($request);
         try {
             Session::flash('email', $request->email);
 
