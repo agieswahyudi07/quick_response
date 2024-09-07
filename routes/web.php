@@ -77,7 +77,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['roleAcces:admin'], 'as' => 
 
     // completed admin  
     Route::get('/completed', [CompletedController::class, 'index_admin'])->name('completed');
-    Route::post('/completed', [CompletedController::class, 'index_admin'])->name('completed.filter');
+    Route::post('/completed/filter', [CompletedController::class, 'index_admin_filter'])->name('completed.filter');
     Route::get('/completed/show/{id}', [CompletedController::class, 'completed_show_admin'])->name('completed.show');
     Route::get('/completed/export', [CompletedController::class, 'completed_export'])->name('completed.export');
 
@@ -128,7 +128,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
     // completed user  
     Route::get('/completed', [CompletedController::class, 'index_user'])->name('completed');
     Route::get('/completed/show/{id}', [CompletedController::class, 'completed_show_user'])->name('completed.show');
-    Route::post('/completed', [CompletedController::class, 'index_user'])->name('completed.filter');
+    Route::post('/completed/filter', [CompletedController::class, 'index_user'])->name('completed.filter');
     Route::get('/completed/export', [CompletedController::class, 'completed_export'])->name('completed.export');
 
 

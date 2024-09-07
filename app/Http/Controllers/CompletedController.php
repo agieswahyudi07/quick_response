@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\PriorityModel;
 use App\Models\ComplaintModel;
-use App\Models\CompletedModel;
 use App\Exports\CompletedExport;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Session;
-
 
 class CompletedController extends Controller
 {
@@ -21,37 +18,94 @@ class CompletedController extends Controller
 
     public function index_admin(Request $request)
     {
-        $query = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 3);
+        try {
+            $query = ComplaintModel::query();
 
-        // Filter berdasarkan tanggal jika ada dalam request
-        if ($request->has('filter_date')) {
-            $filterDate = $request->input('filter_date');
+            if (!empty($request->filterFromDateInput) && !empty($request->filterToDateInput)) {
+                $filterFromDateInput = Carbon::createFromFormat('Y-m-d', $request->filterFromDateInput);
+                $filterToDateInput = Carbon::createFromFormat('Y-m-d', $request->filterToDateInput);
 
-            // Jika filter_date kosong, abaikan filter tanggal
-            if (!empty($filterDate)) {
-                $query->whereDate('completed_at', '=', $filterDate);
+                if ($filterFromDateInput > $filterToDateInput) {
+                    return redirect()->back()->withErrors('from date cannot be grater than to date.');
+                }
+
+                Session::flash('dateFromFilter', $filterFromDateInput->format('Y-m-d'));
+                Session::flash('dateToFilter', $filterToDateInput->format('Y-m-d'));
+
+                $query->whereBetween('completed_at', [$filterFromDateInput->startOfDay(), $filterToDateInput->endOfDay()]);
+            } else {
+                $query->where('status_id', '=', 3)
+                    ->orderBy('priority_id', 'asc');
+
+                Session::forget(['dateFromFilter', 'dateToFilter']);
             }
+
+            $complaints = $query->get();
+            $formattedComplaints = $complaints->map(function ($complaint) {
+                $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+                $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+                return $complaint;
+            });
+
+            $data = [
+                'title' => 'Completed',
+                'complaint' => $formattedComplaints,
+            ];
+
+            return view('admin/completed/index', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
-
-        $complaints = $query->get();
-
-        $formattedComplaints = $complaints->map(function ($complaint) {
-            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
-            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
-            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
-            return $complaint;
-        });
-
-        $data = [
-            'title' => 'Completed',
-            'complaint' => $formattedComplaints,
-            'complaint_date_filter' => $complaints, // Memasukkan hasil query tanpa format
-        ];
-
-        return view('admin/completed/index', compact('data'));
     }
+
+    public function index_admin_filter(Request $request)
+    {
+        try {
+            $query = ComplaintModel::query();
+
+            if (!empty($request->filterFromDateInput) && !empty($request->filterToDateInput)) {
+                $filterFromDateInput = Carbon::createFromFormat('Y-m-d', $request->filterFromDateInput);
+                $filterToDateInput = Carbon::createFromFormat('Y-m-d', $request->filterToDateInput);
+
+                if ($filterFromDateInput > $filterToDateInput) {
+                    return redirect()->back()->withErrors('from date cannot be grater than to date.');
+                }
+
+                Session::flash('dateFromFilter', $filterFromDateInput->format('Y-m-d'));
+                Session::flash('dateToFilter', $filterToDateInput->format('Y-m-d'));
+
+                $query->whereBetween('completed_at', [$filterFromDateInput->startOfDay(), $filterToDateInput->endOfDay()]);
+            } else {
+                $query->where('status_id', '=', 3)
+                    ->orderBy('priority_id', 'asc');
+
+                Session::forget(['dateFromFilter', 'dateToFilter']);
+            }
+
+            $complaints = $query->get();
+            $formattedComplaints = $complaints->map(function ($complaint) {
+                $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+                $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+                return $complaint;
+            });
+
+            $data = [
+                'title' => 'Completed',
+                'complaint' => $formattedComplaints,
+            ];
+
+            return view('admin/completed/index', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
+        }
+    }
+
 
     public function index_user(Request $request)
     {
@@ -90,29 +144,32 @@ class CompletedController extends Controller
 
     public function completed_show_admin($id)
     {
-        $complaint = ComplaintModel::with('status')
-            ->with('priority')
-            ->where('complaint_id', '=', $id)
-            ->first();
+        try {
+            $complaint = ComplaintModel::with('status')
+                ->with('priority')
+                ->where('complaint_id', '=', $id)
+                ->first();
 
-        // Pemformatan waktu dan tanggal dari tabel ms_complaint
-        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
-        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
 
-        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
-        if ($complaint->completed_at) {
-            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            if ($complaint->completed_at) {
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            }
+
+            $title = "Item Details";
+
+            $data = [
+                'complaint' => $complaint,
+                'title' => $title,
+            ];
+
+            return view('admin.completed.show', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
-
-        $title = "Item Details";
-
-        $data = [
-            'complaint' => $complaint,
-            'title' => $title,
-        ];
-
-        return view('admin.completed.show', compact('data'));
     }
 
     public function completed_show_user($id)
@@ -146,18 +203,23 @@ class CompletedController extends Controller
 
     public function completed_export()
     {
-        $columns = [
-            'ms_complaint.*',
-            'ms_priority.priority_name',
-            'ms_status.status_name',
-        ];
+        try {
+            $columns = [
+                'ms_complaint.*',
+                'ms_priority.priority_name',
+                'ms_status.status_name',
+            ];
 
-        $data = ComplaintModel::select($columns)
-            ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
-            ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
-            ->where('ms_status.status_id', '=', 3)
-            ->get();
+            $data = ComplaintModel::select($columns)
+                ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
+                ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
+                ->where('ms_status.status_id', '=', 3)
+                ->get();
 
-        return Excel::download(new CompletedExport($data), 'Completed-' . Carbon::now()->format('d-m-Y') . '.xlsx');
+            return Excel::download(new CompletedExport($data), 'Completed-' . Carbon::now()->format('d-m-Y') . '.xlsx');
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 }

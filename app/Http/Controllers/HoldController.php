@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\HoldModel;
 use App\Exports\HoldExport;
 use Illuminate\Http\Request;
 use App\Models\ComplaintModel;
@@ -17,16 +16,20 @@ class HoldController extends Controller
      */
     public function index_admin()
     {
-        // $ComplaintModel = new ComplaintModel;        
-        $complaint = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 4)
-            ->get();
+        try {
+            $complaint = ComplaintModel::orderBy('priority_id', 'asc')
+                ->where('status_id', '=', 4)
+                ->get();
 
-        $data = [
-            'title' => 'On Hold',
-            'complaint' => $complaint
-        ];
-        return view('admin/hold/index', compact('data'));
+            $data = [
+                'title' => 'On Hold',
+                'complaint' => $complaint
+            ];
+            return view('admin/hold/index', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 
     public function index_user()
@@ -45,75 +48,80 @@ class HoldController extends Controller
 
     public function hold_process(Request $request, $id)
     {
+        try {
+            $complaint = ComplaintModel::find($id);
+            if (!$complaint) {
+                Session::flash('error', 'Complaint not found.');
+                return redirect()->route('admin.queue');
+            }
 
-        $complaint = ComplaintModel::find($id);
-        // dd($complaint);
-        if (!$complaint) {
-            Session::flash('error', 'Complaint not found.');
-            return redirect()->route('admin.queue');
-        }
+            $complaint_name = $complaint->complaint_name;
+            $complaint_reporter = $complaint->complaint_reporter;
+            $complaint_location = $complaint->complaint_location;
+            $complaint_time = $complaint->complaint_time;
+            $complaint_date = $complaint->complaint_date;
+            $complaint_desc = $complaint->complaint_desc;
+            $compalint_priority = $complaint->priority_id;
+            $status_id = '2';
+            $proceed_at = now();
 
+            $data = [
+                'complaint_name' => $complaint_name,
+                'complaint_reporter' => $complaint_reporter,
+                'complaint_location' => $complaint_location,
+                'complaint_time' => $complaint_time,
+                'complaint_date' => $complaint_date,
+                'priority_id' => $compalint_priority,
+                'complaint_desc' => $complaint_desc,
+                'status_id' => $status_id,
+                'created_at' => $proceed_at,
+            ];
 
-        // Menggunakan data complaint langsung tanpa perlu foreach
-        $complaint_name = $complaint->complaint_name;
-        $complaint_reporter = $complaint->complaint_reporter;
-        $complaint_location = $complaint->complaint_location;
-        $complaint_time = $complaint->complaint_time;
-        $complaint_date = $complaint->complaint_date;
-        $complaint_desc = $complaint->complaint_desc;
-        $compalint_priority = $complaint->priority_id;
-        $status_id = '2'; // Anda mungkin ingin mengambil nilai ini dari input atau data lain
-        $proceed_at = now();
+            $update = $complaint->update($data);
 
-        $data = [
-            'complaint_name' => $complaint_name,
-            'complaint_reporter' => $complaint_reporter,
-            'complaint_location' => $complaint_location,
-            'complaint_time' => $complaint_time,
-            'complaint_date' => $complaint_date,
-            'priority_id' => $compalint_priority,
-            'complaint_desc' => $complaint_desc,
-            'status_id' => $status_id,
-            'created_at' => $proceed_at,
-        ];
-        // dd($data);
-
-        $update = $complaint->update($data);
-        // dd($update);
-
-        if ($update) {
-            Session::flash('success', 'Data successfully Proceed.');
-            return redirect()->route('admin.hold');
-        } else {
-            Session::flash('failed', 'Data Failed to Insert.');
+            if ($update) {
+                Session::flash('success', 'Data successfully Proceed.');
+                return redirect()->route('admin.hold');
+            } else {
+                Session::flash('failed', 'Data Failed to Insert.');
+            }
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
     }
 
     public function hold_show_admin($id)
     {
-        $complaint = ComplaintModel::with('status')
-            ->with('priority')
-            ->where('complaint_id', '=', $id)
-            ->first();
+        try {
 
-        // Pemformatan waktu dan tanggal dari tabel ms_complaint
-        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
-        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            $complaint = ComplaintModel::with('status')
+                ->with('priority')
+                ->where('complaint_id', '=', $id)
+                ->first();
 
-        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
-        if ($complaint->completed_at) {
-            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            // Pemformatan waktu dan tanggal dari tabel ms_complaint
+            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+
+            // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+            if ($complaint->completed_at) {
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            }
+
+            $title = "Item Details";
+
+            $data = [
+                'complaint' => $complaint,
+                'title' => $title,
+            ];
+
+            return view('admin.hold.show', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
-
-        $title = "Item Details";
-
-        $data = [
-            'complaint' => $complaint,
-            'title' => $title,
-        ];
-
-        return view('admin.hold.show', compact('data'));
     }
 
     public function hold_show_user($id)
@@ -145,18 +153,23 @@ class HoldController extends Controller
 
     public function hold_export()
     {
-        $columns = [
-            'ms_complaint.*',
-            'ms_priority.priority_name',
-            'ms_status.status_name',
-        ];
+        try {
+            $columns = [
+                'ms_complaint.*',
+                'ms_priority.priority_name',
+                'ms_status.status_name',
+            ];
 
-        $data = ComplaintModel::select($columns)
-            ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
-            ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
-            ->where('ms_status.status_id', '=', 4)
-            ->get();
+            $data = ComplaintModel::select($columns)
+                ->join('ms_priority', 'ms_complaint.priority_id', '=', 'ms_priority.priority_id')
+                ->join('ms_status', 'ms_status.status_id', '=', 'ms_complaint.status_id')
+                ->where('ms_status.status_id', '=', 4)
+                ->get();
 
-        return Excel::download(new HoldExport($data), 'Hold-' . Carbon::now()->format('d-m-Y') . '.xlsx');
+            return Excel::download(new HoldExport($data), 'Hold-' . Carbon::now()->format('d-m-Y') . '.xlsx');
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
+        }
     }
 }

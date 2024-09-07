@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Carbon\Carbon;
 use App\Models\NeedModel;
 use Illuminate\Http\Request;
-use App\Models\PriorityModel;
 use App\Models\ComplaintModel;
 use App\Exports\ProgressExport;
 use Illuminate\Support\Facades\DB;
