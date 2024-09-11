@@ -109,36 +109,42 @@ class CompletedController extends Controller
 
     public function index_user(Request $request)
     {
-        $query = ComplaintModel::orderBy('priority_id', 'asc')
-            ->where('status_id', '=', 3);
+        try {
+            //code...
+            $query = ComplaintModel::orderBy('priority_id', 'asc')
+                ->where('status_id', '=', 3);
 
-        // Filter berdasarkan tanggal jika ada dalam request
-        if ($request->has('filter_date')) {
-            $filterDate = $request->input('filter_date');
+            // Filter berdasarkan tanggal jika ada dalam request
+            if ($request->has('filter_date')) {
+                $filterDate = $request->input('filter_date');
 
-            // Jika filter_date kosong, abaikan filter tanggal
-            if (!empty($filterDate)) {
-                $query->whereDate('completed_at', '=', $filterDate);
+                // Jika filter_date kosong, abaikan filter tanggal
+                if (!empty($filterDate)) {
+                    $query->whereDate('completed_at', '=', $filterDate);
+                }
             }
+
+            $complaints = $query->get();
+
+            $formattedComplaints = $complaints->map(function ($complaint) {
+                $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+                $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+                return $complaint;
+            });
+
+            $data = [
+                'title' => 'Completed',
+                'complaint' => $formattedComplaints,
+                'complaint_date_filter' => $complaints, // Memasukkan hasil query tanpa format
+            ];
+
+            return view('user/completed/index', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
-
-        $complaints = $query->get();
-
-        $formattedComplaints = $complaints->map(function ($complaint) {
-            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
-            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
-            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
-            return $complaint;
-        });
-
-        $data = [
-            'title' => 'Completed',
-            'complaint' => $formattedComplaints,
-            'complaint_date_filter' => $complaints, // Memasukkan hasil query tanpa format
-        ];
-
-        return view('user/completed/index', compact('data'));
     }
 
 
@@ -174,29 +180,35 @@ class CompletedController extends Controller
 
     public function completed_show_user($id)
     {
-        $complaint = ComplaintModel::with('status')
-            ->with('priority')
-            ->where('complaint_id', '=', $id)
-            ->first();
+        try {
+            //code...
+            $complaint = ComplaintModel::with('status')
+                ->with('priority')
+                ->where('complaint_id', '=', $id)
+                ->first();
 
-        // Pemformatan waktu dan tanggal dari tabel ms_complaint
-        $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
-        $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
+            // Pemformatan waktu dan tanggal dari tabel ms_complaint
+            $complaint->proceed_at_time = Carbon::parse($complaint->proceed_at)->format('H:i');
+            $complaint->proceed_at_date = Carbon::parse($complaint->proceed_at)->format('Y-m-d');
 
-        // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
-        if ($complaint->completed_at) {
-            $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
-            $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            // Pastikan untuk memeriksa apakah completed_at tidak null sebelum memformat
+            if ($complaint->completed_at) {
+                $complaint->completed_at_time = Carbon::parse($complaint->completed_at)->format('H:i');
+                $complaint->completed_at_date = Carbon::parse($complaint->completed_at)->format('Y-m-d');
+            }
+
+            $title = "Item Details";
+
+            $data = [
+                'complaint' => $complaint,
+                'title' => $title,
+            ];
+
+            return view('user.completed.show', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->back();
         }
-
-        $title = "Item Details";
-
-        $data = [
-            'complaint' => $complaint,
-            'title' => $title,
-        ];
-
-        return view('user.completed.show', compact('data'));
     }
 
 

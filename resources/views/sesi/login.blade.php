@@ -63,6 +63,7 @@
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
                                     @include('message/errors')
+
                                     <form class="row g-3 needs-validation" method="POST"
                                         action="{{ route('login.submit') }}" id="loginForm" name="loginForm">
                                         @csrf

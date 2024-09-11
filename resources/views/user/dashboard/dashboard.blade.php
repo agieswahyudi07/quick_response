@@ -1,136 +1,144 @@
 @extends('user/layout/layout')
 
 @section('main')
-<main id="main" class="main">
+    <main id="main" class="main">
 
-    <div class="pagetitle">
-      <h1>Dashboard</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </nav>
-    </div><!-- End Page Title -->
+        <div class="pagetitle">
+            <h1>Dashboard</h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </nav>
+        </div><!-- End Page Title -->
 
-    <section class="section dashboard">
-      <div class="row">
+        <section class="section dashboard">
+            <div class="row">
 
-        <!-- Left side columns -->
-        <div class="col-lg-12">
-          <div class="row">
-            <!-- On Progress Card -->
-            <div class="col-xxl-12 col-md-6">
-              <div class="card info-card sales-card">
+                <!-- Left side columns -->
+                <div class="col-lg-12">
+                    <div class="row">
+                        <!-- On Progress Card -->
+                        <div class="col-xxl-12 col-md-6">
+                            <div class="card info-card sales-card">
 
-                <div class="filter">
-                  {{-- <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a> --}}
-                </div>
+                                <div class="filter">
+                                    {{-- <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a> --}}
+                                </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Total Complaint </h5>
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Complaint </h5>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="ri ri-list-check "></i>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="ri ri-list-check "></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{ $data['complaint'] }}</h6>
+                                            <span class="text-success small pt-1 fw-bold"></span> <span
+                                                class="text-muted small pt-2 ps-1"> Total</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div><!-- End On Progress Card -->
                     </div>
-                    <div class="ps-3">
-                      <h6>{{ $data['complaint'] }}</h6>
-                      <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"> Total</span>
 
-                    </div>
-                  </div>
-                </div>
+                    <div class="row">
 
-              </div>
-            </div><!-- End On Progress Card -->
-          </div>
+                        <!-- Queue Card -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card info-card sales-card">
 
-          <div class="row">
+                                <div class="filter">
+                                    <a class="icon" href="{{ route('user.queue') }}  "><i class="bi bi-eye"></i></a>
+                                </div>
 
-            <!-- Queue Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Complaints Queue</h5>
 
-                <div class="filter">
-                  <a class="icon" href="{{ route('user.queue') }}  "><i class="bi bi-eye"></i></a>
-                </div>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-headset"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{ $data['queue'] }}</h6>
+                                            <span class="text-success small pt-1 fw-bold"></span> <span
+                                                class="text-muted small pt-2 ps-1">Complaint</span>
 
-                <div class="card-body">
-                  <h5 class="card-title">Complaints Queue</h5>
+                                        </div>
+                                    </div>
+                                </div>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-headset"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>{{ $data['queue'] }}</h6>
-                      <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1">Complaint</span>
+                            </div>
+                        </div><!-- End Queue Card -->
 
-                    </div>
-                  </div>
-                </div>
+                        <!-- On Progress Card -->
+                        <div class="col-xxl-4 col-md-6">
+                            <div class="card info-card customers-card">
 
-              </div>
-            </div><!-- End Queue Card -->
+                                <div class="filter">
+                                    <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a>
+                                </div>
 
-            <!-- On Progress Card -->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card customers-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">On Progress </h5>
 
-                <div class="filter">
-                  <a class="icon" href="{{ route('user.progress') }}  "><i class="bi bi-eye"></i></a>
-                </div>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-gear"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{ $data['progress'] }}</h6>
+                                            <span class="text-success small pt-1 fw-bold"></span> <span
+                                                class="text-muted small pt-2 ps-1"> Progress</span>
 
-                <div class="card-body">
-                  <h5 class="card-title">On Progress </h5>
+                                        </div>
+                                    </div>
+                                </div>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-gear"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>{{ $data['progress'] }}</h6>
-                      <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"> Progress</span>
+                            </div>
+                        </div><!-- End On Progress Card -->
 
-                    </div>
-                  </div>
-                </div>
+                        <!-- Completed Card -->
+                        <div class="col-xxl-4 col-xl-12">
 
-              </div>
-            </div><!-- End On Progress Card -->
+                            <div class="card info-card revenue-card">
 
-            <!-- Completed Card -->
-            <div class="col-xxl-4 col-xl-12">
+                                <div class="filter">
+                                    <a class="icon" href="{{ route('user.completed') }}  "><i class="bi bi-eye"></i></a>
+                                </div>
 
-              <div class="card info-card revenue-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Completed </h5>
 
-                <div class="filter">
-                  <a class="icon" href="{{ route('user.completed') }}  "><i class="bi bi-eye"></i></a>
-                </div>
+                                    <div class="d-flex align-items-center">
+                                        <div
+                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                        </div>
+                                        <div class="ps-3">
+                                            <h6>{{ $data['completed'] }}</h6>
+                                            <span class="text-success small pt-1 fw-bold"></span> <span
+                                                class="text-muted small pt-2 ps-1">Completed</span>
 
-                <div class="card-body">
-                  <h5 class="card-title">Completed </h5>
+                                        </div>
+                                    </div>
 
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-check-circle-fill"></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6>{{ $data['completed'] }}</h6>
-                      <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1">Completed</span>
+                                </div>
+                            </div>
 
-                    </div>
-                  </div>
+                        </div>
+                        <!-- End Completed Card -->
 
-                </div>
-              </div>
-
-            </div>
-            <!-- End Completed Card -->
-
-            {{-- <!-- Reports -->
+                        {{-- <!-- Reports -->
             <div class="col-12">
               <div class="card">
 
@@ -212,70 +220,74 @@
               </div>
             </div><!-- End Reports --> --}}
 
-            <!-- Recent Sales -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
+                        <!-- Recent Sales -->
+                        <div class="col-12">
+                            <div class="card recent-sales overflow-auto">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
+                                <div class="filter">
+                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
+                                            class="bi bi-three-dots"></i></a>
+                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                        <li class="dropdown-header text-start">
+                                            <h6>Filter</h6>
+                                        </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                  </ul>
-                </div>
+                                        <li><a class="dropdown-item" href="#">Today</a></li>
+                                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    </ul>
+                                </div>
 
-                <div class="card-body">
-                  <h5 class="card-title">Recent Complaint <span>| Today</span></h5>
+                                <div class="card-body">
+                                    <h5 class="card-title">Recent Complaint <span>| Today</span></h5>
 
-                  <table class="table table-borderless datatable">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Reporter</th>
-                        <th scope="col">Complaint</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($data['recent_complaint'] as $recent_complaint)
-                      <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $recent_complaint->complaint_reporter }}</td>
-                        <td>{{ $recent_complaint->complaint_name }}</td>
-                        <td>{{ $recent_complaint->complaint_location }}</td>
-                        @switch($recent_complaint->status_id)
-                            @case(1)
-                            <td><span class="badge bg-danger">queue</span></td>
-                                @break
-                            @case(2)
-                            <td><span class="badge bg-primary">progress</span></td>
-                                @break
-                            @case(3)
-                            <td><span class="badge bg-success">completed</span></td>
-                                @break
-                            @case(4)
-                            <td><span class="badge bg-warning">Hold</span></td>
-                            @default
-                                
-                        @endswitch
-                        
-                      </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
+                                    <table class="table table-borderless datatable">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Reporter</th>
+                                                <th scope="col">Complaint</th>
+                                                <th scope="col">Location</th>
+                                                <th scope="col">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($data['recent_complaint'] as $recent_complaint)
+                                                <tr>
+                                                    <th scope="row">{{ $loop->iteration }}</th>
+                                                    <td>{{ $recent_complaint->complaint_reporter }}</td>
+                                                    <td>{{ $recent_complaint->complaint_name }}</td>
+                                                    <td>{{ $recent_complaint->complaint_location }}</td>
+                                                    @switch($recent_complaint->status_id)
+                                                        @case(1)
+                                                            <td><span class="badge bg-danger">queue</span></td>
+                                                        @break
 
-                </div>
+                                                        @case(2)
+                                                            <td><span class="badge bg-primary">progress</span></td>
+                                                        @break
 
-              </div>
-            </div><!-- End Recent Sales -->
+                                                        @case(3)
+                                                            <td><span class="badge bg-success">completed</span></td>
+                                                        @break
 
-            {{-- <!-- Top Selling -->
+                                                        @case(4)
+                                                            <td><span class="badge bg-warning">Hold</span></td>
+
+                                                            @default
+                                                        @endswitch
+
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div><!-- End Recent Sales -->
+
+                            {{-- <!-- Top Selling -->
             <div class="col-12">
               <div class="card top-selling overflow-auto">
 
@@ -349,14 +361,14 @@
               </div>
             </div><!-- End Top Selling --> --}}
 
-          </div>
-        </div><!-- End Left side columns -->
+                        </div>
+                    </div><!-- End Left side columns -->
 
-        <!-- Right side columns -->
-        <div class="col-lg-4">
+                    <!-- Right side columns -->
+                    <div class="col-lg-4">
 
-          <!-- Recent Activity -->
-          {{-- <div class="card">
+                        <!-- Recent Activity -->
+                        {{-- <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -389,7 +401,7 @@
             </div>
           </div><!-- End Recent Activity --> --}}
 
-          {{-- <!-- Budget Report -->
+                        {{-- <!-- Budget Report -->
           <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -463,7 +475,7 @@
             </div>
           </div><!-- End Budget Report --> --}}
 
-          {{-- <!-- Website Traffic -->
+                        {{-- <!-- Website Traffic -->
           <div class="card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -541,7 +553,7 @@
             </div>
           </div><!-- End Website Traffic --> --}}
 
-            {{-- <!-- News & Updates Traffic -->
+                        {{-- <!-- News & Updates Traffic -->
             <div class="card">
               <div class="filter">
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -595,10 +607,10 @@
               </div>    
             </div><!-- End News & Updates --> --}}
 
-        </div><!-- End Right side columns -->
+                    </div><!-- End Right side columns -->
 
-      </div>
-    </section>
+                </div>
+            </section>
 
-  </main><!-- End #main -->
-@endsection
+        </main><!-- End #main -->
+    @endsection
