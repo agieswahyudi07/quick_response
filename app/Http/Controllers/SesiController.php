@@ -23,8 +23,6 @@ class SesiController extends Controller
     public function login(Request $request)
     {
         try {
-            Session::flash('email', $request->email);
-
             $request->validate([
                 'email' => 'required',
                 'password' => 'required',

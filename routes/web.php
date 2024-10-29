@@ -115,6 +115,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['roleAcces:user'], 'as' => 'u
 
     // queue user
     Route::get('/queue', [QueueController::class, 'index_user'])->name('queue');
+    Route::get('/queue/create', [QueueController::class, 'user_queue_create'])->name('queue.create');
+    Route::post('/queue/store', [QueueController::class, 'user_queue_store'])->name('queue.store');
     Route::get('/queue/show/{id}', [QueueController::class, 'queue_show_user'])->name('queue.show');
     Route::get('/queue/export', [QueueController::class, 'queue_export'])->name('queue.export');
 

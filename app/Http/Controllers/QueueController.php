@@ -91,6 +91,22 @@ class QueueController extends Controller
         }
     }
 
+    public function user_queue_create()
+    {
+        try {
+            $ComplaintModel = new ComplaintModel;
+            $priority = PriorityModel::all();
+            $data = [
+                'title' => 'Queue',
+                'priority' => $priority
+            ];
+            return view('user/queue/add', compact('data'));
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->route('user.queue');
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -159,6 +175,74 @@ class QueueController extends Controller
         } catch (\Throwable $th) {
             Session::flash('failed', $th->getMessage());
             return redirect()->route('admin.queue.create');
+        }
+    }
+
+    public function user_queue_store(Request $request)
+    {
+        try {
+            Session::flash('txtComplaintName', $request->txtComplaintName);
+            Session::flash('txtComplaintReporter', $request->txtComplaintReporter);
+            Session::flash('txtComplaintLocation', $request->txtComplaintLocation);
+            Session::flash('txtComplaintTime', $request->txtComplaintTime);
+            Session::flash('txtComplaintDate', $request->txtComplaintDate);
+            Session::flash('txtComplaintDesc', $request->txtComplaintDesc);
+            Session::flash('selPriority', $request->selPriority);
+
+            $priority = DB::table('ms_priority')->where('priority_id', '=', $request->selPriority)->first();
+            if ($priority) {
+                Session::flash('txtPriority', $priority->priority_name);
+            }
+
+            $request->validate([
+                'txtComplaintName' => 'required',
+                'txtComplaintReporter' => 'required',
+                'txtComplaintLocation' => 'required',
+                'txtComplaintTime' => 'required',
+                'txtComplaintDate' => 'required',
+                'selPriority' => 'required',
+
+            ], [
+                'txtComplaintName.required' => 'Complaint Required.',
+                'txtComplaintReporter.required' => 'Complaint Reporter Required.',
+                'txtComplaintLocation.required' => 'Complaint Location Required.',
+                'txtComplaintTime.required' => 'Complaint Time Required.',
+                'txtComplaintDate.required' => 'Complaint Date Required.',
+                'selPriority.required' => 'Complaint Priority Required.',
+            ]);
+
+            $complaint_name = $request->input('txtComplaintName');
+            $complaint_reporter = $request->input('txtComplaintReporter');
+            $complaint_location = $request->input('txtComplaintLocation');
+            $complaint_time = $request->input('txtComplaintTime');
+            $complaint_date = $request->input('txtComplaintDate');
+            $compalint_desc = $request->input('txtComplaintDesc');
+            $compalint_priority = $request->input('selPriority');
+            $status_id = "1";
+            $created_at = now();
+
+            $data = [
+                'complaint_name' => $complaint_name,
+                'complaint_reporter' => $complaint_reporter,
+                'complaint_location' => $complaint_location,
+                'complaint_time' => $complaint_time,
+                'complaint_date' => $complaint_date,
+                'priority_id' => $compalint_priority,
+                'complaint_desc' => $compalint_desc,
+                'status_id' => $status_id,
+                'created_at' => $created_at,
+            ];
+
+            $ComplaintModel = new ComplaintModel();
+            $insert = $ComplaintModel->insert($data);
+
+            if ($insert) {
+                Session::flash('success', 'Data successfully Inserted.');
+                return redirect()->route('user.queue');
+            }
+        } catch (\Throwable $th) {
+            Session::flash('failed', $th->getMessage());
+            return redirect()->route('user.queue.create');
         }
     }
 
